@@ -1,104 +1,121 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { TextField, Button, Link, Typography } from '@mui/material';
-import * as Yup from 'yup';
+import React from "react";
+import { Formik, Form, Field } from "formik";
+import { TextField, Button, Link, Typography } from "@mui/material";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
+import "../styles/SignUpForm.css";
 
 const RegisterForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-    },
-    validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address').required('Required'),
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
-    }),
-    onSubmit: (values) => {
-      console.log('Form data', values);
-    },
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  };
+  const navigate = useNavigate();
+
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email address").required("Required"),
+    password: Yup.string()
+      .min(8, "Password must be at least 8 characters long")
+      .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+      .matches(/[a-z]/, "Password must contain at least one lowercase letter")
+      .matches(/[0-9]/, "Password must contain at least one number")
+      .matches(
+        /[!@#$%^&*(),.?":{}|<>]/,
+        "Password must contain at least one special character"
+      )
+      .required("Required"),
   });
 
+  const handleSubmit = (values) => {
+    console.log("data", values);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center ">
-      <div className="w-full max-w-sm p-8 rounded-md shadow-lg space-y-5 bg-slate-200">
-        <Typography variant="h3" className="text-left">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
+      <div className="absolute inset-0 z-0">
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+        <div className="bubble"></div>
+      </div>
+      <div className="w-full max-w-sm p-8 rounded-2xl shadow-lg space-y-5 bg-slate-200 z-10 relative">
+        <Typography variant="h3" className="text-center text-2xl text-white bg-blue-900 p-2 rounded-xl">
           Sign up
         </Typography>
 
-        <form onSubmit={formik.handleSubmit} className='space-y-4'>
-        <div className='space-y-5'>
-          <TextField
-            label="First Name"
-            variant="outlined"
-            fullWidth
-            inputLabel={{ style: { color: '#A0AEC0' } }}
-            input={{ style: { color: 'white' } }}
-            className="mb-6" 
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={formik.values.email}
-          />
-          </div>
-          <div className='space-y-5'>
-          <TextField
-            label="Last Name"
-            variant="outlined"
-            fullWidth
-            inputLabel={{ style: { color: '#A0AEC0' } }}
-            input={{ style: { color: 'white' } }}
-            className="mb-6" 
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={formik.values.email}
-          />
-          </div>
-          <div className='space-y-5'>
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            inputLabel={{ style: { color: '#A0AEC0' } }}
-            input={{ style: { color: 'white' } }}
-            className="mb-6" 
-            type="email"
-            id="email"
-            name="email"
-            value={formik.values.email}
-          />
-          </div>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ errors, touched }) => (
+            <Form className="space-y-4">
+              <Field
+                as={TextField}
+                label="First Name"
+                variant="outlined"
+                fullWidth
+                className="mb-6"
+                type="text"
+                name="firstName"
+              />
+              <Field
+                as={TextField}
+                label="Last Name"
+                variant="outlined"
+                fullWidth
+                className="mb-6"
+                type="text"
+                name="lastName"
+                sx={{borderRadius: "8px"}}
+              />
+              <Field
+                as={TextField}
+                label="Email"
+                variant="outlined"
+                fullWidth
+                className="mb-6"
+                type="email"
+                name="email"
+                
+              />
+              <Field
+                as={TextField}
+                label="Password"
+                variant="outlined"
+                fullWidth
+                className="mb-6"
+                type="password"
+                name="password"
+                
+              />
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+                className="mb-6 bg-blue-600 hover:bg-blue-700"
+              >
+                Sign up
+              </Button>
+            </Form>
+          )}
+        </Formik>
 
-          <div className='space-y-5'>
-          <TextField
-            label="Password"
-            variant="outlined"
-            fullWidth
-            sx={{borderRadius: '8px'}}
-            inputLabel={{ style: { color: '#A0AEC0' } }}
-            input={{ style: { color: '#2D3748' } }}
-            className="mb-6 rounded-md" 
-            type="password"
-            id="password"
-            name="password"
-            value={formik.values.password}
-          />
-          </div>
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            className="mb-6 bg-blue-600 hover:bg-blue-700 " 
+        <Typography variant="body2" className="text-center text-gray-400 z-10">
+          Already have an account?{" "}
+          <Link
+            onClick={() => navigate("/signin")}
+            className="text-blue-500 cursor-pointer"
           >
-            Sign up
-          </Button>
-        </form>
-
-        <Typography variant="body2" className="text-center text-gray-400">
-          Already have an account?{' '}
-          <Link href="#" className="text-blue-500">
             Sign in
           </Link>
         </Typography>
