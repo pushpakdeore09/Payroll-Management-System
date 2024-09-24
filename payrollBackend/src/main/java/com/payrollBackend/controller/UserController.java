@@ -2,7 +2,6 @@ package com.payrollBackend.controller;
 
 import com.payrollBackend.model.User;
 import com.payrollBackend.repository.UserRepository;
-import com.payrollBackend.response.AuthResponse;
 import com.payrollBackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
