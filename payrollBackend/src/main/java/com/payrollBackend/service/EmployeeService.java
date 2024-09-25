@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EmployeeService {
 
@@ -32,6 +34,15 @@ public class EmployeeService {
 
 
         return new ResponseEntity<>("Employee added Successfully", HttpStatus.CREATED);
+    }
+
+    public ResponseEntity<String> removeEmployee(Integer employeeId) {
+
+        Optional<Employee> existingEmployee = employeeRepository.findById(employeeId);
+
+        if(existingEmployee.isEmpty()){
+            return new ResponseEntity<>("Employee does not exists", HttpStatus.BAD_REQUEST);
+        }
 
     }
 }

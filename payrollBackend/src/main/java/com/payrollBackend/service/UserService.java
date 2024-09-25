@@ -30,11 +30,16 @@ public class UserService {
         return new ResponseEntity<>("Register Successfully", HttpStatus.CREATED);
     }
 
-    public User loginUser(String email, String password){
-        User user = userRepository.findByEmail(email);
-        if(user != null && user.getPassword().equals(password)){
-            return user;
+    public ResponseEntity<?> loginUser(String email, String password){
+        User existingUser = userRepository.findByEmail(email);
+        if(existingUser == null){
+            return new ResponseEntity<>("User does not exist!", HttpStatus.BAD_REQUEST);
         }
-        return null;
+        if(!existingUser.getPassword().equals(password)){
+            return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+        }
+        existingUser.setPassword(null);
+
+        return new ResponseEntity<>(existingUser, HttpStatus.OK);
     }
 }
