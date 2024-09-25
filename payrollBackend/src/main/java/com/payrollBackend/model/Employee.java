@@ -19,15 +19,23 @@ public class Employee {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "gender")
+    private String gender;
+
     @Column(name = "joining_date")
     private Date joiningDate;
+
+    @Column(name = "dob")
+    private Date dob;
 
     @Column(name = "email")
     private String email;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "base_salary")
     private Double baseSalary;
-
 
     @Column(name = "employee_type")
     private String employeeType;
@@ -42,12 +50,15 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Integer employeeId, String firstName, String lastName, Date joiningDate, String email, Double baseSalary, String employeeType, String designation, Department department) {
+    public Employee(Integer employeeId, String firstName, String lastName, String gender, Date joiningDate, Date dob, String email, String address, Double baseSalary, String employeeType, String designation, Department department) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.gender = gender;
         this.joiningDate = joiningDate;
+        this.dob = dob;
         this.email = email;
+        this.address = address;
         this.baseSalary = baseSalary;
         this.employeeType = employeeType;
         this.designation = designation;
@@ -124,5 +135,29 @@ public class Employee {
 
     public void setDepartment(Department department) {
         this.department = department;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
