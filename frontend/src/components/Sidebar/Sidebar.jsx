@@ -1,12 +1,31 @@
-import React from "react";
-import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import React, { useState } from "react";
+import { List, ListItem, ListItemIcon, ListItemText, Collapse } from "@mui/material";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PeopleIcon from "@mui/icons-material/People";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import DescriptionIcon from "@mui/icons-material/Description"; // For Reports
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+
+  const navigate = useNavigate();
+
+  const [openGeneralSetup, setOpenGeneralSetup] = useState(false);
+  const [openEmployeeMgmt, setOpenEmployeeMgmt] = useState(false);
+  const [openPayroll, setOpenPayroll] = useState(false);
+
+  const toggleGeneralSetup = () => setOpenGeneralSetup(!openGeneralSetup);
+  const toggleEmployeeMgmt = () => setOpenEmployeeMgmt(!openEmployeeMgmt);
+  const togglePayroll = () => setOpenPayroll(!openPayroll);
+
+  const handleDepartment = () => {
+    navigate("/department")
+  }
+
   return (
     <div className="w-80 bg-blue-700 min-h-screen text-white font-bold">
       <h2 className="text-2xl font-bold text-center py-6">
@@ -18,50 +37,77 @@ const Sidebar = () => {
         </h2>
       </div>
       <List>
-        <ListItem button>
+        <ListItem button onClick={toggleGeneralSetup} className="hover:bg-blue-600">
           <ListItemIcon>
-            <ApartmentIcon style={{ color: "white" }} />
+            <ApartmentIcon className="text-white" />
           </ListItemIcon>
-          <ListItemText
-            primary="Department"
-            sx={{ fontSize: "24px", fontWeight: "bold", color: "white" }}
-          />
+          <ListItemText primary="General Setup" className="text-2xl cursor-pointer" />
+          {openGeneralSetup ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <ListItem button>
+        <Collapse in={openGeneralSetup} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <ApartmentIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Department" className="text-2xl cursor-pointer" onClick={handleDepartment} />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        <ListItem button onClick={toggleEmployeeMgmt} className="hover:bg-blue-600">
           <ListItemIcon>
-            <PeopleIcon style={{ color: "white" }} />
+            <PeopleIcon className="text-white" />
           </ListItemIcon>
-          <ListItemText
-            primary="Employees"
-            sx={{ fontSize: "24px", fontWeight: "bold" }}
-          />
+          <ListItemText primary="Employee Management" className="text-2xl cursor-pointer" />
+          {openEmployeeMgmt ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <ListItem button>
+        <Collapse in={openEmployeeMgmt} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <PeopleIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Employees" className="text-2xl cursor-pointer" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        <ListItem button onClick={togglePayroll} className="hover:bg-blue-600">
           <ListItemIcon>
-            <MonetizationOnIcon style={{ color: "white" }} />
+            <MonetizationOnIcon className="text-white" />
           </ListItemIcon>
-          <ListItemText
-            primary="Allowances "
-            sx={{ fontSize: "24px", fontWeight: "bold" }}
-          />
+          <ListItemText primary="Payroll" className="text-2xl cursor-pointer" />
+          {openPayroll ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <ListItem button>
+        <Collapse in={openPayroll} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <DescriptionIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Payroll Month" className="text-2xl cursor-pointer" />
+            </ListItem>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <DescriptionIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Payroll Setup" className="text-2xl cursor-pointer" />
+            </ListItem>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <DescriptionIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Tax Slabs" className="text-2xl cursor-pointer" />
+            </ListItem>
+          </List>
+        </Collapse>
+
+        <ListItem button className="hover:bg-blue-600">
           <ListItemIcon>
-            <RemoveCircleOutlineIcon style={{ color: "white" }} />
+            <DescriptionIcon className="text-white" />
           </ListItemIcon>
-          <ListItemText
-            primary="Deductions"
-            sx={{ fontSize: "24px", fontWeight: "bold" }}
-          />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ReceiptIcon style={{ color: "white" }} />
-          </ListItemIcon>
-          <ListItemText
-            primary="Payroll"
-            sx={{ fontSize: "24px", fontWeight: "bold" }}
-          />
+          <ListItemText primary="Reports" className="text-2xl cursor-pointer" />
         </ListItem>
       </List>
     </div>

@@ -4,7 +4,7 @@ import { TextField, Button, Typography } from "@mui/material";
 const EmployeeManagement = () => {
   return (
     <div className="flex flex-col p-4">
-      <Typography variant="h5" className="mb-2 text-3xl font-bold">
+      <Typography variant="h4" className="mb-2 text-3xl font-bold">
         Employee Dashboard
       </Typography>
 
@@ -13,7 +13,7 @@ const EmployeeManagement = () => {
           variant="contained"
           color="primary"
           fullWidth
-          size="small"
+          size="medium"
           sx={{ width: "200px", marginTop:"25px"}}
         >
           + Add New Employee

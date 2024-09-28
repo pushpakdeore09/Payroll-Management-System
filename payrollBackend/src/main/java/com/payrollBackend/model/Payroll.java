@@ -40,17 +40,17 @@ public class Payroll {
     private Double finalSalary;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "employeeId")
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "payroll_month_id")
-    private PayrollMonth payrollMonth;
+    @JoinColumn(name = "payrollmonth_id", referencedColumnName = "payrollmonthId")
+    private PayrollMonth payrollmonth;
 
     public Payroll() {
     }
 
-    public Payroll(Integer payrollId, String payrollName, Double tax, Double providentFund, Double eobi, Double gratuity, Double bonus, Double totalDeductions, Double netSalary, Double finalSalary, Employee employee, PayrollMonth payrollMonth) {
+    public Payroll(Integer payrollId, String payrollName, Double tax, Double providentFund, Double eobi, Double gratuity, Double bonus, Double totalDeductions, Double netSalary, Double finalSalary, Employee employee, PayrollMonth payrollmonth) {
         this.payrollId = payrollId;
         this.payrollName = payrollName;
         this.tax = tax;
@@ -62,7 +62,7 @@ public class Payroll {
         this.netSalary = netSalary;
         this.finalSalary = finalSalary;
         this.employee = employee;
-        this.payrollMonth = payrollMonth;
+        this.payrollmonth = payrollmonth;
     }
 
     public Integer getPayrollId() {
@@ -154,10 +154,10 @@ public class Payroll {
     }
 
     public PayrollMonth getPayrollMonth() {
-        return payrollMonth;
+        return payrollmonth;
     }
 
     public void setPayrollMonth(PayrollMonth payrollMonth) {
-        this.payrollMonth = payrollMonth;
+        this.payrollmonth = payrollMonth;
     }
 }

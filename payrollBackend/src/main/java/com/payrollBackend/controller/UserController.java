@@ -27,7 +27,7 @@ public class UserController {
 
     @PostMapping(value = "/signin")
     public ResponseEntity<String> signin(@RequestParam String email, @RequestParam String password){
-        User user = userService.loginUser(email, password);
+        ResponseEntity<?> user = userService.loginUser(email, password);
 
         if(user != null){
             return ResponseEntity.ok("Login Successful");

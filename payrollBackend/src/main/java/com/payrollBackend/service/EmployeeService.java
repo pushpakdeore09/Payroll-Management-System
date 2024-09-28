@@ -44,5 +44,6 @@ public class EmployeeService {
             return new ResponseEntity<>("Employee does not exists", HttpStatus.BAD_REQUEST);
         }
 
+        return null;
     }
 }
