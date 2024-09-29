@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,16 +32,22 @@ public class DepartmentService {
         return new ResponseEntity<>("Department added", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<String> deleteDepartment(Integer deptId){
+    public ResponseEntity<String> deleteDepartment(Integer deptId) throws Exception{
 
-        Optional<Department> isDeptExist = departmentRepository.findById(deptId);
-
-        if(isDeptExist.isEmpty()){
-            return new ResponseEntity<>("Department does not exist", HttpStatus.BAD_REQUEST);
-        }
-        Optional<Department> department = departmentRepository.findById(deptId);
-        departmentRepository.deleteById(deptId);
-
+        Department department = findDepartmentById(deptId);
+        departmentRepository.delete(department);
         return new ResponseEntity<>("Department removed", HttpStatus.OK);
+    }
+
+    public Department findDepartmentById(Integer deptId) throws Exception{
+        Optional<Department> department = departmentRepository.findById(deptId);
+        if (department.isEmpty()){
+            throw new Exception("Department not found");
+        }
+        return department.get();
+    }
+
+    public List<Department> findAllDepartment(){
+        return departmentRepository.findAll();
     }
 }

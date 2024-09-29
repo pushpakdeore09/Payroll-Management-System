@@ -1,7 +1,5 @@
 package com.payrollBackend.model;
 
-import com.payrollBackend.model.Employee;
-import com.payrollBackend.model.PayrollMonth;
 import jakarta.persistence.*;
 
 @Entity

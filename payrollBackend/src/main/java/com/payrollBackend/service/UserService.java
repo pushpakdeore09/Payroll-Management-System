@@ -5,6 +5,7 @@ import com.payrollBackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,12 +20,14 @@ public class UserService {
         if(isExist!=null){
            return new ResponseEntity<>("User already exists with this email address", HttpStatus.CONFLICT);
         }
-
         User newUser = new User();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
+
         newUser.setFirstName(user.getFirstName());
         newUser.setLastName(user.getLastName());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(hashedPassword);
 
         userRepository.save(newUser);
         return new ResponseEntity<>("Register Successfully", HttpStatus.CREATED);
@@ -35,8 +38,9 @@ public class UserService {
         if(existingUser == null){
             return new ResponseEntity<>("User does not exist!", HttpStatus.BAD_REQUEST);
         }
-        if(!existingUser.getPassword().equals(password)){
-            return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(password, existingUser.getPassword())) {
+        	return new ResponseEntity<>("Invalid email or password", HttpStatus.BAD_REQUEST);
         }
         existingUser.setPassword(null);
 

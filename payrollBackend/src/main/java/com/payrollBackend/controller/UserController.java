@@ -2,6 +2,7 @@ package com.payrollBackend.controller;
 
 import com.payrollBackend.model.User;
 import com.payrollBackend.repository.UserRepository;
+import com.payrollBackend.request.LoginRequest;
 import com.payrollBackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,10 @@ public class UserController {
     }
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<String> signin(@RequestParam String email, @RequestParam String password){
+    public ResponseEntity<String> signin(@RequestBody LoginRequest loginRequest){
+    	
+    	String email = loginRequest.getEmail();
+    	String password = loginRequest.getPassword();
         ResponseEntity<?> user = userService.loginUser(email, password);
 
         if(user != null){

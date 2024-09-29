@@ -1,5 +1,6 @@
 package com.payrollBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.payrollBackend.model.Department;
 import jakarta.persistence.*;
 
@@ -43,7 +44,7 @@ public class Employee {
     @Column(name = "designation")
     private String designation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "dept_id")
     private Department department;
 

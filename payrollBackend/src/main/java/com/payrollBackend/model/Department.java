@@ -1,5 +1,6 @@
 package com.payrollBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.payrollBackend.model.Employee;
 import jakarta.persistence.*;
 
@@ -17,6 +18,7 @@ public class Department {
     private String deptName;
 
     @OneToMany(mappedBy = "department")
+    @JsonIgnore
     private List<Employee> employees;
 
     public Department() {

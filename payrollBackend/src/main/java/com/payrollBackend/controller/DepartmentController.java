@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 public class DepartmentController {
@@ -19,13 +19,20 @@ public class DepartmentController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @GetMapping(value = "/departments")
+    public ResponseEntity<List<Department>> findAllDepartment(){
+        List<Department> departments =departmentService.findAllDepartment();
+        return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+
     @PostMapping(value = "/department")
     public ResponseEntity<String> addDepartment(@RequestBody Department department){
         return departmentService.createDepartment(department);
     }
 
     @DeleteMapping(value = "/department/{deptId}")
-    public ResponseEntity<String> removeDepartment(@RequestParam Integer deptId){
+    public ResponseEntity<String> removeDepartment(@PathVariable Integer deptId) throws Exception{
         return departmentService.deleteDepartment(deptId);
     }
 }
