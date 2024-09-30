@@ -6,6 +6,7 @@ import Homepage from './pages/home/Homepage';
 import Department from './components/Department/Department';
 import Sidebar from './components/Sidebar/Sidebar'; // Import the Sidebar
 import EmployeeManagement from './components/EmployeeManagement/EmployeeManagement';
+import AddEmployee from './components/EmployeeManagement/AddEmployee';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path='/signup' element={<RegisterForm/>}/>
             <Route path='/' element={<EmployeeManagement/>}/>
             <Route path='/department' element={<Department/>}/>
+            <Route path='/employee' element={<AddEmployee/>}/>
           </Routes>
         </div>
       </div>
