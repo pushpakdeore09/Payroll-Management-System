@@ -16,7 +16,7 @@ const style = {
     p: 4,
   };
 
-const AddDepartmentModal = ({open, handleClose}) => {
+const SearchEmployeeModal = ({open, handleClose}) => {
  
   return (
     <div>
@@ -49,7 +49,7 @@ const AddDepartmentModal = ({open, handleClose}) => {
               color="primary"
               size='medium'
             >
-              Add
+              Search
             </Button>
             <Button
               variant="contained"
@@ -68,4 +68,4 @@ const AddDepartmentModal = ({open, handleClose}) => {
   )
 }
 
-export default AddDepartmentModal
+export default SearchEmployeeModal

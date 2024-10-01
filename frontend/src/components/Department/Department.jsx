@@ -3,12 +3,14 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import React, { useState } from 'react';
 import AddDepartmentModal from './AddDepartmentModal';
+import SearchEmployeeModal from './SearchEmployee';
 
 const Department = () => {
   const [isSearched, setIsSearched] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
   const [departmentName, setDepartmentName] = useState(""); 
   const [openAddDepartmentModal, setOpenAddDepartmentModal] = useState(false);
+  const [openSearchEmployeeModal, setOpenSearchEmployeeModal] = useState(false);
 
   const handleOpenDepartmentAddModal = () => {
     setOpenAddDepartmentModal(true);
@@ -16,6 +18,14 @@ const Department = () => {
 
   const handleCloseAddDepartmentModal = () => {
     setOpenAddDepartmentModal(false);
+  }
+
+  const handleOpenSearchEmployeeModal = () => {
+    setOpenSearchEmployeeModal(true);
+  }
+
+  const handleCloseSearchEmployeeModal = () => {
+    setOpenSearchEmployeeModal(false);
   }
 
   return (
@@ -28,7 +38,7 @@ const Department = () => {
       </div>
       <div style={{ padding: '20px' }}>
         <Grid2 container spacing={2} alignItems="flex-end"> 
-          <Grid2 item xs={10} size={9}>
+          <Grid2 item xs={10} size={8}>
             <TextField
               readOnly
               label="Department Name"
@@ -60,6 +70,16 @@ const Department = () => {
               onClick={handleOpenDepartmentAddModal}
             >
               Add New
+            </Button>
+          </Grid2>
+          <Grid2 item xs={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleOpenSearchEmployeeModal}
+            >
+              Search
             </Button>
           </Grid2>
         </Grid2>
@@ -99,6 +119,9 @@ const Department = () => {
       </div>
       <div>
         <AddDepartmentModal handleClose={handleCloseAddDepartmentModal} open={openAddDepartmentModal}/>
+      </div>
+      <div>
+        <SearchEmployeeModal handleClose={handleCloseSearchEmployeeModal} open={openSearchEmployeeModal} />
       </div>
     </>
   );
