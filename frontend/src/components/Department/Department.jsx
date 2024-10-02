@@ -32,7 +32,7 @@ const Department = () => {
     <>
       <div className='flex flex-col'>
         <Typography variant='h4' className='text-3xl font-bold mb-2 p-4'>
-          Department
+          Department Dashboard
         </Typography>
         <Divider />
       </div>
