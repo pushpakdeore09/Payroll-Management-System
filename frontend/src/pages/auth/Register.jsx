@@ -3,7 +3,10 @@ import { Formik, Form, Field } from "formik";
 import { TextField, Button, Link, Typography } from "@mui/material";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
+import  { signup } from '../../components/api/authApi';
+import { toast } from 'react-toastify';
 import "../styles/SignUpForm.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 const RegisterForm = () => {
   const initialValues = {
@@ -30,8 +33,16 @@ const RegisterForm = () => {
       .required("Required"),
   });
 
-  const handleSubmit = (values) => {
-    console.log("data", values);
+  const handleSubmit = async (values) => {
+    try {
+      const response = await signup(values);
+      toast.success(response, {autoClose: 1500});
+      setTimeout(() => {
+        navigate('/signin')
+      }, 2000);
+    } catch (error) {
+      toast.error(error.response.data, {autoClose: 2000})
+    }
   };
 
   return (
@@ -66,6 +77,8 @@ const RegisterForm = () => {
                 className="mb-6"
                 type="text"
                 name="firstName"
+                error={touched.firstName && Boolean(errors.firstName)}
+                helperText={touched.firstName && errors.firstName}
               />
               <Field
                 as={TextField}
@@ -75,7 +88,9 @@ const RegisterForm = () => {
                 className="mb-6"
                 type="text"
                 name="lastName"
-                sx={{borderRadius: "8px"}}
+                error={touched.lastName && Boolean(errors.lastName)}
+                helperText={touched.lastName && errors.lastName}
+                sx={{ borderRadius: "8px" }}
               />
               <Field
                 as={TextField}
@@ -85,7 +100,8 @@ const RegisterForm = () => {
                 className="mb-6"
                 type="email"
                 name="email"
-                
+                error={touched.email && Boolean(errors.email)}
+                helperText={touched.email && errors.email}
               />
               <Field
                 as={TextField}
@@ -95,7 +111,8 @@ const RegisterForm = () => {
                 className="mb-6"
                 type="password"
                 name="password"
-                
+                error={touched.password && Boolean(errors.password)}
+                helperText={touched.password && errors.password}
               />
               <Button
                 type="submit"

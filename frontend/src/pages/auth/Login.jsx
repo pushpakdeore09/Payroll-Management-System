@@ -4,6 +4,8 @@ import { TextField, Button, Link, Typography } from "@mui/material";
 import * as Yup from "yup";
 import "../styles/SignInForm.css"; // Import the CSS file
 import { useNavigate } from "react-router-dom";
+import { signin } from "../../components/api/authApi";
+import { toast } from "react-toastify";
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -18,8 +20,18 @@ const SignInForm = () => {
     password: Yup.string().required("Required"),
   });
 
-  const handleSubmit = (values) => {
-    console.log("Form data", values);
+  const handleSubmit = async (values) => {
+    try {
+      const response = await signin(values);
+      toast.success("Login Successful", {autoClose: 1500});
+      setTimeout(() => {
+        navigate('/');
+      }, 2000)
+    } catch (error) {
+      
+    }
+    
+    
   };
 
 

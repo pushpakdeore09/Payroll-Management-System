@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Avatar, Menu, MenuItem, IconButton, Divider, Box, Grid, Card, CardContent } from '@mui/material';
+import { Typography, Avatar, Menu, MenuItem, IconButton, Divider, Box, Grid, Card, CardContent, Grid2 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 const Homepage = () => {
@@ -56,56 +56,56 @@ const Homepage = () => {
           This system allows you to manage employee payroll efficiently, including features for:
         </Typography>
 
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6} md={4}>
+        <Grid2 container spacing={3}>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">Define Departments</Typography>
                 <Typography variant="body2">Easily set up and manage various departments within your organization.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid2>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">Import Employee Data</Typography>
                 <Typography variant="body2">Seamlessly import employee information for quick setup.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid2>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">Setup Payroll</Typography>
                 <Typography variant="body2">Configure payroll with tax limitations for accurate calculations.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid2>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">Manage Allowances</Typography>
                 <Typography variant="body2">Track and manage employee allowances effectively.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid2>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">Generate Reports</Typography>
                 <Typography variant="body2">Generate detailed payroll reports for better insights.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
+          </Grid2>
+          <Grid2 item xs={12} sm={6} md={4}>
             <Card>
               <CardContent>
                 <Typography variant="h5" component="div">PDF Pay Slips</Typography>
                 <Typography variant="body2">Generate and download PDF pay slips for employees.</Typography>
               </CardContent>
             </Card>
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
       </Box>
     </>
   );

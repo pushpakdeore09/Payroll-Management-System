@@ -2,6 +2,7 @@ import './App.css';
 import SignInForm from './pages/auth/Login';
 import RegisterForm from './pages/auth/Register';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import Homepage from './pages/home/Homepage';
 import Department from './components/Department/Department';
 import Sidebar from './components/Sidebar/Sidebar'; 
@@ -32,6 +33,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppContent />
+      <ToastContainer/>
     </BrowserRouter>
   );
 }

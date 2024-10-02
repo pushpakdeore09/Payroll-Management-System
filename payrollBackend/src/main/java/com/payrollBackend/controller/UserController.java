@@ -7,12 +7,13 @@ import com.payrollBackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class UserController {
 
     @Autowired
@@ -27,17 +28,15 @@ public class UserController {
     }
 
     @PostMapping(value = "/signin")
-    public ResponseEntity<String> signin(@RequestBody LoginRequest loginRequest){
+    public ResponseEntity<?> signin(@RequestBody LoginRequest loginRequest){
     	
     	String email = loginRequest.getEmail();
     	String password = loginRequest.getPassword();
         ResponseEntity<?> user = userService.loginUser(email, password);
 
         if(user != null){
-            return ResponseEntity.ok("Login Successful");
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }
-        else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
+        return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
     }
 }

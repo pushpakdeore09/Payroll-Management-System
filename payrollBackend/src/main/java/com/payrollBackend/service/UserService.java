@@ -18,7 +18,7 @@ public class UserService {
         User isExist = userRepository.findByEmail(user.getEmail());
 
         if(isExist!=null){
-           return new ResponseEntity<>("User already exists with this email address", HttpStatus.CONFLICT);
+           return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         }
         User newUser = new User();
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -33,17 +33,23 @@ public class UserService {
         return new ResponseEntity<>("Register Successfully", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<?> loginUser(String email, String password){
+    public ResponseEntity<?> loginUser(String email, String password) {
+
         User existingUser = userRepository.findByEmail(email);
-        if(existingUser == null){
+
+        if (existingUser == null) {
             return new ResponseEntity<>("User does not exist!", HttpStatus.BAD_REQUEST);
         }
+        System.out.println("Stored hashed password: " + existingUser.getPassword());
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if(!passwordEncoder.matches(password, existingUser.getPassword())) {
-        	return new ResponseEntity<>("Invalid email or password", HttpStatus.BAD_REQUEST);
-        }
-        existingUser.setPassword(null);
+        boolean passwordMatch = passwordEncoder.matches(password, existingUser.getPassword());
+        System.out.println("Password match result: " + passwordMatch);
 
-        return new ResponseEntity<>(existingUser, HttpStatus.OK);
+        if (passwordMatch && email.equals(existingUser.getEmail())) {
+            existingUser.setPassword(null);
+            return new ResponseEntity<>(existingUser, HttpStatus.OK);
+
+        }
+        return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);
     }
 }
