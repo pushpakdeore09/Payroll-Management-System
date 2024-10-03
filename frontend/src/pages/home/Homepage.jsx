@@ -14,6 +14,10 @@ const Homepage = () => {
     setAnchorEl(null);
   };
 
+  const handleLogout = () => {
+    
+  }
+
   return (
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px' }}>
@@ -41,8 +45,7 @@ const Homepage = () => {
               horizontal: 'right',
             }}
           >
-            <MenuItem onClick={handleClose}>My Profile</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
           </Menu>
         </div>
       </div>

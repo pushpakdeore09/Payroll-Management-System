@@ -22,7 +22,8 @@ function AppContent() {
           <Route path='/signup' element={<RegisterForm />} />
           <Route path='/' element={<Homepage />} />
           <Route path='/department' element={<Department />} />
-          <Route path='/employee' element={<AddEmployee />} />
+          <Route path='/employee' element={<EmployeeManagement />} />
+          <Route path='/addEmployee' element={<AddEmployee/>}/>
         </Routes>
       </div>
     </div>

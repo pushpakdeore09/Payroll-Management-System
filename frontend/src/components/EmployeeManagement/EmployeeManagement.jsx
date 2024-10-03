@@ -1,7 +1,15 @@
 import React from "react";
 import { TextField, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const EmployeeManagement = () => {
+
+  const navigate = useNavigate();
+
+  const handleAddNewEmployee = () => {
+    navigate('/addEmployee')
+  }
+
   return (
     <div className="flex flex-col p-4">
       <Typography variant="h4" className="mb-2 text-3xl font-bold">
@@ -15,6 +23,7 @@ const EmployeeManagement = () => {
           fullWidth
           size="medium"
           sx={{ width: "200px", marginTop:"25px"}}
+          onClick={handleAddNewEmployee}
         >
           + Add New Employee
         </Button>
