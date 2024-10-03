@@ -1,7 +1,7 @@
 package com.payrollBackend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.payrollBackend.model.Department;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.payrollBackend.service.DepartmentDeserialize;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -46,6 +46,7 @@ public class Employee {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "dept_id")
+    @JsonDeserialize(using = DepartmentDeserialize.class)
     private Department department;
 
     public Employee() {

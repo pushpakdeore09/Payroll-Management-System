@@ -23,8 +23,8 @@ public class EmployeeService {
 
     public ResponseEntity<String> addEmployee(Employee employee) {
 
-        Department department = departmentRepository.findById(employee.getDepartment().getDeptId())
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+        Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
+
         Employee newEmployee = new Employee();
         newEmployee.setFirstName(employee.getFirstName());
         newEmployee.setLastName(employee.getLastName());

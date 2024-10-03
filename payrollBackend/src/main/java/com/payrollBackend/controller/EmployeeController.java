@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class EmployeeController {
 
     @Autowired
@@ -26,7 +27,6 @@ public class EmployeeController {
 
     @PostMapping(value = "/addEmployee")
     public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
-    	System.out.println("Department Details: "+employee.getDepartment());
         return employeeService.addEmployee(employee);
     }
 

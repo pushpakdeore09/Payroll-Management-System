@@ -30,6 +30,10 @@ const Sidebar = () => {
     navigate("/employee")
   }
 
+  const handleAddEmployee = () => {
+    navigate('/addEmployee')
+  }
+
   return (
     <div className="w-80 bg-blue-700 min-h-screen text-white font-bold">
       <h2 className="text-2xl font-bold text-center py-6">
@@ -73,6 +77,12 @@ const Sidebar = () => {
                 <PeopleIcon className="text-white" />
               </ListItemIcon>
               <ListItemText primary="Employees" className="text-2xl cursor-pointer"  onClick={handleEmployees}/>
+            </ListItem>
+            <ListItem button className="ml-6 hover:bg-blue-600">
+              <ListItemIcon>
+                <PeopleIcon className="text-white" />
+              </ListItemIcon>
+              <ListItemText primary="Add Employee" className="text-2xl cursor-pointer"  onClick={handleAddEmployee}/>
             </ListItem>
           </List>
         </Collapse>

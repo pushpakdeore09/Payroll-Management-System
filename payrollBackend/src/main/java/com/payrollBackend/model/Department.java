@@ -1,7 +1,6 @@
 package com.payrollBackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.payrollBackend.model.Employee;
 import jakarta.persistence.*;
 
 import java.util.List;
