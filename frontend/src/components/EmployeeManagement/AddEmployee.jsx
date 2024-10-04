@@ -53,7 +53,9 @@ const AddEmployee = () => {
     getAllDepartments();
   }, []);
 
-  const handleSave = async (values) => {
+
+
+  const handleSave = async (values, { resetForm }) => {
     const employeeData = {
       ...values,
       department: selectedDepartment, 
@@ -62,6 +64,8 @@ const AddEmployee = () => {
     try {
       const response = await addEmployee(employeeData);
       toast.success(response.data, {autoClose: 2000});
+      resetForm();
+      setSelectedDepartment("");
     } catch (error) {
       toast.error(error.response.data, {autoClose: 2000})
     }

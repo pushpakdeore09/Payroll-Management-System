@@ -5,7 +5,7 @@ export const addEmployee = async (employeeData) => {
         const response = await apiClient.post('/addEmployee', employeeData);
         return response;
     } catch (error) {
-        console.log(error);
+        throw error;
         
     }
 }

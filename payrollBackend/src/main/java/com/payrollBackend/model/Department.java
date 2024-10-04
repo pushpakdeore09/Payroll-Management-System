@@ -16,6 +16,9 @@ public class Department {
     @Column(name = "dept_name")
     private String deptName;
 
+    @Column(name = "emp_count")
+    private Integer employeeCount;
+
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     private List<Employee> employees;
@@ -23,9 +26,10 @@ public class Department {
     public Department() {
     }
 
-    public Department(Integer deptId, String deptName, List<Employee> employees) {
+    public Department(Integer deptId, String deptName, Integer employeeCount, List<Employee> employees) {
         this.deptId = deptId;
         this.deptName = deptName;
+        this.employeeCount = employeeCount;
         this.employees = employees;
     }
 
@@ -51,5 +55,13 @@ public class Department {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public Integer getEmployeeCount() {
+        return employeeCount;
+    }
+
+    public void setEmployeeCount(Integer employeeCount) {
+        this.employeeCount = employeeCount;
     }
 }

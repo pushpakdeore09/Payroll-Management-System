@@ -2,11 +2,13 @@ package com.payrollBackend.service;
 
 import com.payrollBackend.model.Department;
 import com.payrollBackend.repository.DepartmentRepository;
+import com.payrollBackend.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,10 +18,12 @@ public class DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     public ResponseEntity<String> createDepartment(Department department){
-
+        System.out.println(department.getDeptName());
         Optional<Department> isDeptExist = Optional.ofNullable(departmentRepository.findByDeptName(department.getDeptName()));
-
         if(isDeptExist.isPresent()){
             return new ResponseEntity<>("Department already exists", HttpStatus.CONFLICT);
         }
@@ -46,11 +50,18 @@ public class DepartmentService {
         }
         return department.get();
     }
-    public Department findDepartmentByName(String deptName) {
-        return departmentRepository.findByDeptName(deptName);
+    public Optional<Department> findDepartmentByName(String deptName) {
+        return Optional.ofNullable(departmentRepository.findByDeptName(deptName));
     }
 
     public List<Department> findAllDepartment(){
-        return departmentRepository.findAll();
+        List<Department> departments = departmentRepository.findAll();
+
+        for (Department department : departments) {
+            Integer employeeCount = employeeRepository.countByDepartment_DeptId(department.getDeptId());
+            department.setEmployeeCount(employeeCount);
+        }
+
+        return departments;
     }
 }

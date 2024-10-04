@@ -25,6 +25,11 @@ public class EmployeeService {
 
         Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
 
+        Optional<Employee> isEmpExist = Optional.ofNullable(employeeRepository.findByEmail(employee.getEmail()));
+        if(isEmpExist.isPresent()){
+            return new ResponseEntity<>("Employee already Exist", HttpStatus.CONFLICT);
+        }
+
         Employee newEmployee = new Employee();
         newEmployee.setFirstName(employee.getFirstName());
         newEmployee.setLastName(employee.getLastName());
@@ -39,6 +44,13 @@ public class EmployeeService {
         newEmployee.setDepartment(department);
 
         employeeRepository.save(newEmployee);
+
+        Integer deptId = employee.getDepartment().getDeptId();
+        Department updateDepartment = departmentRepository.findById(deptId)
+                .orElseThrow(()-> new RuntimeException("Department not found"));
+        updateDepartment.setEmployeeCount(department.getEmployeeCount()+1);
+        departmentRepository.save(updateDepartment);
+
         return new ResponseEntity<>("Employee added Successfully", HttpStatus.CREATED);
     }
 
