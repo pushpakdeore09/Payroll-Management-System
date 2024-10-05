@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class DepartmentController {
 
     @Autowired
@@ -35,5 +35,10 @@ public class DepartmentController {
     @DeleteMapping(value = "/department/{deptId}")
     public ResponseEntity<String> removeDepartment(@PathVariable Integer deptId) throws Exception{
         return departmentService.deleteDepartment(deptId);
+    }
+
+    @GetMapping(value = "/department/{deptName}")
+    public ResponseEntity<?> findDeptByName(@PathVariable String deptName){
+        return departmentService.findDepartmentByName(deptName);
     }
 }

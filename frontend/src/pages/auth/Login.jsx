@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, Form, Field } from "formik";
 import { TextField, Button, Link, Typography } from "@mui/material";
 import * as Yup from "yup";
-import "../styles/SignInForm.css"; // Import the CSS file
+import "../styles/SignInForm.css";
 import { useNavigate } from "react-router-dom";
 import { signin } from "../../components/api/authApi";
 import { toast } from "react-toastify";
@@ -26,12 +26,10 @@ const SignInForm = () => {
       toast.success("Login Successful", {autoClose: 1500});
       setTimeout(() => {
         navigate('/');
-      }, 2000)
+      }, 2000);
     } catch (error) {
-      
+      console.log("login", error);
     }
-    
-    
   };
 
 

@@ -22,7 +22,7 @@ const Homepage = () => {
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px' }}>
         <div className='mt-5 ml-5'>
-          <Typography variant='h3' className='text-2xl'>Welcome, username</Typography>
+          <Typography variant='h3' className='text-2xl'>Welcome</Typography>
         </div>
         <div className='mr-5'>
           <IconButton onClick={handleClick}>

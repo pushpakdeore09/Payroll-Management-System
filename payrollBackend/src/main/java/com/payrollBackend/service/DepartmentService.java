@@ -50,8 +50,12 @@ public class DepartmentService {
         }
         return department.get();
     }
-    public Optional<Department> findDepartmentByName(String deptName) {
-        return Optional.ofNullable(departmentRepository.findByDeptName(deptName));
+    public ResponseEntity<?> findDepartmentByName(String deptName) {
+        Optional<Department> department = Optional.ofNullable(departmentRepository.findByDeptName(deptName));
+        if(department.isPresent()){
+            return new ResponseEntity<>(department, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Department not found", HttpStatus.BAD_REQUEST);
     }
 
     public List<Department> findAllDepartment(){

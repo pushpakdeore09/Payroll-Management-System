@@ -45,7 +45,7 @@ public class Employee {
     private String designation;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "dept_id")
+    @JoinColumn(name = "dept_id", nullable = true)
     @JsonDeserialize(using = DepartmentDeserialize.class)
     private Department department;
 

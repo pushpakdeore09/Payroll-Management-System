@@ -19,7 +19,7 @@ public class Department {
     @Column(name = "emp_count")
     private Integer employeeCount;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Employee> employees;
 

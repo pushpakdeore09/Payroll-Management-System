@@ -4,6 +4,7 @@ import com.payrollBackend.model.Department;
 import com.payrollBackend.model.Employee;
 import com.payrollBackend.repository.DepartmentRepository;
 import com.payrollBackend.repository.EmployeeRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ public class EmployeeService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Transactional
     public ResponseEntity<String> addEmployee(Employee employee) {
 
         Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
@@ -45,11 +47,12 @@ public class EmployeeService {
 
         employeeRepository.save(newEmployee);
 
-        Integer deptId = employee.getDepartment().getDeptId();
-        Department updateDepartment = departmentRepository.findById(deptId)
-                .orElseThrow(()-> new RuntimeException("Department not found"));
-        updateDepartment.setEmployeeCount(department.getEmployeeCount()+1);
-        departmentRepository.save(updateDepartment);
+        if (department.getEmployeeCount() == null) {
+            department.setEmployeeCount(1);
+        } else {
+            department.setEmployeeCount(department.getEmployeeCount() + 1);
+        }
+
 
         return new ResponseEntity<>("Employee added Successfully", HttpStatus.CREATED);
     }
