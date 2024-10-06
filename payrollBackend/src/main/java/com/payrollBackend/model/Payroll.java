@@ -2,6 +2,8 @@ package com.payrollBackend.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "payroll")
 public class Payroll {
@@ -13,134 +15,52 @@ public class Payroll {
     @Column(name = "payroll_name")
     private String payrollName;
 
-    @Column(name = "tax")
-    private Double tax;
+    @Column(name = "employee_id", nullable = false)
+    private Employee employee;
 
-    @Column(name = "provident_fund")
-    private Double providentFund;
-
-    @Column(name = "eobi")
-    private Double eobi;
-
-    @Column(name = "gratuity")
-    private Double gratuity;
-
-    @Column(name = "bonus")
-    private Double bonus;
-
-    @Column(name = "total_deductions")
-    private Double totalDeductions;
+    @Column(name = "payrollmonth_id", nullable = false)
+    private PayrollMonth payrollMonth;
 
     @Column(name = "net_salary")
     private Double netSalary;
 
-    @Column(name = "final_salary")
-    private Double finalSalary;
+    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Allowances> allowances;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", referencedColumnName = "employeeId")
-    private Employee employee;
+    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Deductions> deductions;
 
-    @ManyToOne
-    @JoinColumn(name = "payrollmonth_id", referencedColumnName = "payrollmonthId")
-    private PayrollMonth payrollmonth;
+    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Tax> taxes;
 
     public Payroll() {
     }
 
-    public Payroll(Integer payrollId, String payrollName, Double tax, Double providentFund, Double eobi, Double gratuity, Double bonus, Double totalDeductions, Double netSalary, Double finalSalary, Employee employee, PayrollMonth payrollmonth) {
-        this.payrollId = payrollId;
-        this.payrollName = payrollName;
-        this.tax = tax;
-        this.providentFund = providentFund;
-        this.eobi = eobi;
-        this.gratuity = gratuity;
-        this.bonus = bonus;
-        this.totalDeductions = totalDeductions;
-        this.netSalary = netSalary;
-        this.finalSalary = finalSalary;
+    public Payroll(List<Allowances> allowances, List<Deductions> deductions, Employee employee, Double netSalary, Integer payrollId, PayrollMonth payrollMonth, String payrollName, List<Tax> taxes) {
+        this.allowances = allowances;
+        this.deductions = deductions;
         this.employee = employee;
-        this.payrollmonth = payrollmonth;
-    }
-
-    public Integer getPayrollId() {
-        return payrollId;
-    }
-
-    public void setPayrollId(Integer payrollId) {
-        this.payrollId = payrollId;
-    }
-
-    public String getPayrollName() {
-        return payrollName;
-    }
-
-    public void setPayrollName(String payrollName) {
-        this.payrollName = payrollName;
-    }
-
-    public Double getTax() {
-        return tax;
-    }
-
-    public void setTax(Double tax) {
-        this.tax = tax;
-    }
-
-    public Double getProvidentFund() {
-        return providentFund;
-    }
-
-    public void setProvidentFund(Double providentFund) {
-        this.providentFund = providentFund;
-    }
-
-    public Double getEobi() {
-        return eobi;
-    }
-
-    public void setEobi(Double eobi) {
-        this.eobi = eobi;
-    }
-
-    public Double getGratuity() {
-        return gratuity;
-    }
-
-    public void setGratuity(Double gratuity) {
-        this.gratuity = gratuity;
-    }
-
-    public Double getBonus() {
-        return bonus;
-    }
-
-    public void setBonus(Double bonus) {
-        this.bonus = bonus;
-    }
-
-    public Double getTotalDeductions() {
-        return totalDeductions;
-    }
-
-    public void setTotalDeductions(Double totalDeductions) {
-        this.totalDeductions = totalDeductions;
-    }
-
-    public Double getNetSalary() {
-        return netSalary;
-    }
-
-    public void setNetSalary(Double netSalary) {
         this.netSalary = netSalary;
+        this.payrollId = payrollId;
+        this.payrollMonth = payrollMonth;
+        this.payrollName = payrollName;
+        this.taxes = taxes;
     }
 
-    public Double getFinalSalary() {
-        return finalSalary;
+    public List<Allowances> getAllowances() {
+        return allowances;
     }
 
-    public void setFinalSalary(Double finalSalary) {
-        this.finalSalary = finalSalary;
+    public void setAllowances(List<Allowances> allowances) {
+        this.allowances = allowances;
+    }
+
+    public List<Deductions> getDeductions() {
+        return deductions;
+    }
+
+    public void setDeductions(List<Deductions> deductions) {
+        this.deductions = deductions;
     }
 
     public Employee getEmployee() {
@@ -151,11 +71,43 @@ public class Payroll {
         this.employee = employee;
     }
 
+    public Double getNetSalary() {
+        return netSalary;
+    }
+
+    public void setNetSalary(Double netSalary) {
+        this.netSalary = netSalary;
+    }
+
+    public Integer getPayrollId() {
+        return payrollId;
+    }
+
+    public void setPayrollId(Integer payrollId) {
+        this.payrollId = payrollId;
+    }
+
     public PayrollMonth getPayrollMonth() {
-        return payrollmonth;
+        return payrollMonth;
     }
 
     public void setPayrollMonth(PayrollMonth payrollMonth) {
-        this.payrollmonth = payrollMonth;
+        this.payrollMonth = payrollMonth;
+    }
+
+    public String getPayrollName() {
+        return payrollName;
+    }
+
+    public void setPayrollName(String payrollName) {
+        this.payrollName = payrollName;
+    }
+
+    public List<Tax> getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(List<Tax> taxes) {
+        this.taxes = taxes;
     }
 }

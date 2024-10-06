@@ -5,6 +5,7 @@ import com.payrollBackend.service.DepartmentDeserialize;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "employee")
@@ -48,6 +49,9 @@ public class Employee {
     @JoinColumn(name = "dept_id", nullable = true)
     @JsonDeserialize(using = DepartmentDeserialize.class)
     private Department department;
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Payroll> payrolls;
 
     public Employee() {
     }
