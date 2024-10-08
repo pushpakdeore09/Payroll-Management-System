@@ -10,24 +10,24 @@ public class Allowances {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer allowanceId;
 
-    @Column(name = "allowance_name")
-    private String allowancesName;
+    @Column(name = "allowance_name", nullable = false)
+    private String allowanceName;
 
-    @Column(name = "allowance_percent")
+    @Column(name = "allowance_percent", nullable = false)
     private Double allowancePercentage;
 
     @ManyToOne
-    @JoinColumn(name = "payroll_id", referencedColumnName = "payrollId")
-    private Payroll payroll;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     public Allowances() {
     }
 
-    public Allowances(Integer allowanceId, Double allowancePercentage, String allowancesName, Payroll payroll) {
+    public Allowances(Integer allowanceId, Double allowancePercentage, String allowanceName, Employee employee) {
         this.allowanceId = allowanceId;
         this.allowancePercentage = allowancePercentage;
-        this.allowancesName = allowancesName;
-        this.payroll = payroll;
+        this.allowanceName = allowanceName;
+        this.employee = employee;
     }
 
     public Integer getAllowanceId() {
@@ -46,19 +46,19 @@ public class Allowances {
         this.allowancePercentage = allowancePercentage;
     }
 
-    public String getAllowancesName() {
-        return allowancesName;
+    public String getAllowanceName() {
+        return allowanceName;
     }
 
-    public void setAllowancesName(String allowancesName) {
-        this.allowancesName = allowancesName;
+    public void setAllowanceName(String allowancesName) {
+        this.allowanceName = allowancesName;
     }
 
-    public Payroll getPayroll() {
-        return payroll;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setPayroll(Payroll payroll) {
-        this.payroll = payroll;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

@@ -2,7 +2,6 @@ package com.payrollBackend.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
 
 @Entity
 @Table(name = "payroll")
@@ -24,44 +23,17 @@ public class Payroll {
     @Column(name = "net_salary")
     private Double netSalary;
 
-    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Allowances> allowances;
-
-    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Deductions> deductions;
-
-    @OneToMany(mappedBy = "payroll", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Tax> taxes;
-
     public Payroll() {
     }
 
-    public Payroll(List<Allowances> allowances, List<Deductions> deductions, Employee employee, Double netSalary, Integer payrollId, PayrollMonth payrollMonth, String payrollName, List<Tax> taxes) {
-        this.allowances = allowances;
-        this.deductions = deductions;
+    public Payroll(Employee employee, Double netSalary, Integer payrollId, PayrollMonth payrollMonth, String payrollName) {
         this.employee = employee;
         this.netSalary = netSalary;
         this.payrollId = payrollId;
         this.payrollMonth = payrollMonth;
         this.payrollName = payrollName;
-        this.taxes = taxes;
     }
 
-    public List<Allowances> getAllowances() {
-        return allowances;
-    }
-
-    public void setAllowances(List<Allowances> allowances) {
-        this.allowances = allowances;
-    }
-
-    public List<Deductions> getDeductions() {
-        return deductions;
-    }
-
-    public void setDeductions(List<Deductions> deductions) {
-        this.deductions = deductions;
-    }
 
     public Employee getEmployee() {
         return employee;
@@ -103,11 +75,4 @@ public class Payroll {
         this.payrollName = payrollName;
     }
 
-    public List<Tax> getTaxes() {
-        return taxes;
-    }
-
-    public void setTaxes(List<Tax> taxes) {
-        this.taxes = taxes;
-    }
 }

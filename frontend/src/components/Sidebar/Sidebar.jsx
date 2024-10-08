@@ -34,6 +34,10 @@ const Sidebar = () => {
     navigate('/addEmployee')
   }
 
+  const handlePayrollMonth = () => {
+    navigate('/payrollMonth')
+  }
+
   return (
     <div className="w-80 bg-blue-700 min-h-screen text-white font-bold">
       <h2 className="text-2xl font-bold text-center py-6">
@@ -100,7 +104,7 @@ const Sidebar = () => {
               <ListItemIcon>
                 <DescriptionIcon className="text-white" />
               </ListItemIcon>
-              <ListItemText primary="Payroll Month" className="text-2xl cursor-pointer" />
+              <ListItemText primary="Payroll Month" className="text-2xl cursor-pointer" onClick={handlePayrollMonth} />
             </ListItem>
             <ListItem button className="ml-6 hover:bg-blue-600">
               <ListItemIcon>

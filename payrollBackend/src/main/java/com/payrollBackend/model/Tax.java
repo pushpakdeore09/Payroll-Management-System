@@ -10,33 +10,26 @@ public class Tax {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer taxId;
 
-    @Column(name = "tax_name")
+    @Column(name = "tax_name", nullable = false)
     private String taxName;
 
-    @Column(name = "tax_percent")
+    @Column(name = "tax_percent", nullable = false)
     private Double taxPercentage;
 
     @ManyToOne
-    @JoinColumn(name = "payroll_id", referencedColumnName = "payrollId")
-    private Payroll payroll;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     public Tax() {
     }
 
-    public Tax(Payroll payroll, Integer taxId, String taxName, Double taxPercentage) {
-        this.payroll = payroll;
+    public Tax(Integer taxId, String taxName, Double taxPercentage, Employee employee) {
         this.taxId = taxId;
         this.taxName = taxName;
         this.taxPercentage = taxPercentage;
+        this.employee = employee;
     }
 
-    public Payroll getPayroll() {
-        return payroll;
-    }
-
-    public void setPayroll(Payroll payroll) {
-        this.payroll = payroll;
-    }
 
     public Integer getTaxId() {
         return taxId;
@@ -60,5 +53,13 @@ public class Tax {
 
     public void setTaxPercentage(Double taxPercentage) {
         this.taxPercentage = taxPercentage;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

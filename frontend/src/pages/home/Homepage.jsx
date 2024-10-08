@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Typography, Avatar, Menu, MenuItem, IconButton, Divider, Box, Grid, Card, CardContent, Grid2 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 const Homepage = () => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -16,6 +18,7 @@ const Homepage = () => {
 
   const handleLogout = () => {
     
+    navigate('/signin');
   }
 
   return (

@@ -10,24 +10,24 @@ public class Deductions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer deductionId;
 
-    @Column(name = "deduction_name")
+    @Column(name = "deduction_name", nullable = false)
     private String deductionName;
 
-    @Column(name = "deduction_percent")
+    @Column(name = "deduction_percent", nullable = false)
     private Double deductionPercentage;
 
     @ManyToOne
-    @JoinColumn(name = "payroll_id", referencedColumnName = "payrollId")
-    private Payroll payroll;
+    @JoinColumn(name = "employee_id", nullable = false)
+    private Employee employee;
 
     public Deductions() {
     }
 
-    public Deductions(Integer deductionId, String deductionName, Double deductionPercentage, Payroll payroll) {
+    public Deductions(Integer deductionId, String deductionName, Double deductionPercentage, Employee employee) {
         this.deductionId = deductionId;
         this.deductionName = deductionName;
         this.deductionPercentage = deductionPercentage;
-        this.payroll = payroll;
+        this.employee = employee;
     }
 
     public Integer getDeductionId() {
@@ -54,11 +54,11 @@ public class Deductions {
         this.deductionPercentage = deductionPercentage;
     }
 
-    public Payroll getPayroll() {
-        return payroll;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setPayroll(Payroll payroll) {
-        this.payroll = payroll;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

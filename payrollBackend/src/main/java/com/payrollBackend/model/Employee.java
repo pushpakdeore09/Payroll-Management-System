@@ -4,12 +4,13 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.payrollBackend.service.DepartmentDeserialize;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "employee")
-public class Employee {
+public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,65 +51,50 @@ public class Employee {
     @JsonDeserialize(using = DepartmentDeserialize.class)
     private Department department;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Payroll> payrolls;
+    @OneToMany(mappedBy = "employee")
+    private List<Allowances> allowances;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Deductions> deductions;
+
+    @OneToMany(mappedBy = "employee")
+    private List<Tax> taxes;
 
     public Employee() {
     }
 
-    public Employee(Integer employeeId, String firstName, String lastName, String gender, Date joiningDate, Date dob, String email, String address, Double baseSalary, String employeeType, String designation, Department department) {
-        this.employeeId = employeeId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.joiningDate = joiningDate;
+    public Employee(String address, List<Allowances> allowances, Double baseSalary, List<Deductions> deductions, Department department, String designation, Date dob, String email, Integer employeeId, String employeeType, String firstName, String gender, Date joiningDate, String lastName, List<Tax> taxes) {
+        this.address = address;
+        this.allowances = allowances;
+        this.baseSalary = baseSalary;
+        this.deductions = deductions;
+        this.department = department;
+        this.designation = designation;
         this.dob = dob;
         this.email = email;
-        this.address = address;
-        this.baseSalary = baseSalary;
-        this.employeeType = employeeType;
-        this.designation = designation;
-        this.department = department;
-    }
-
-    public Integer getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
+        this.employeeType = employeeType;
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Date getJoiningDate() {
-        return joiningDate;
-    }
-
-    public void setJoiningDate(Date joiningDate) {
+        this.gender = gender;
         this.joiningDate = joiningDate;
+        this.lastName = lastName;
+        this.taxes = taxes;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public List<Allowances> getAllowances() {
+        return allowances;
+    }
+
+    public void setAllowances(List<Allowances> allowances) {
+        this.allowances = allowances;
     }
 
     public Double getBaseSalary() {
@@ -119,20 +105,12 @@ public class Employee {
         this.baseSalary = baseSalary;
     }
 
-    public String getEmployeeType() {
-        return employeeType;
+    public List<Deductions> getDeductions() {
+        return deductions;
     }
 
-    public void setEmployeeType(String employeeType) {
-        this.employeeType = employeeType;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
+    public void setDeductions(List<Deductions> deductions) {
+        this.deductions = deductions;
     }
 
     public Department getDepartment() {
@@ -143,12 +121,12 @@ public class Employee {
         this.department = department;
     }
 
-    public String getGender() {
-        return gender;
+    public String getDesignation() {
+        return designation;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setDesignation(String designation) {
+        this.designation = designation;
     }
 
     public Date getDob() {
@@ -159,11 +137,67 @@ public class Employee {
         this.dob = dob;
     }
 
-    public String getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public String getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(String employeeType) {
+        this.employeeType = employeeType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Date getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(Date joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public List<Tax> getTaxes() {
+        return taxes;
+    }
+
+    public void setTaxes(List<Tax> taxes) {
+        this.taxes = taxes;
     }
 }
