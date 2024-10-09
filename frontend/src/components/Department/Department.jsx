@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
 import AddDepartmentModal from "./AddDepartmentModal";
 import { deleteDepartment, getAllDept, getDeptByName } from "../api/deptApi";

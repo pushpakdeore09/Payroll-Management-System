@@ -32,7 +32,16 @@ public class EmployeeController {
 
     @DeleteMapping(value = "/employee/{employeeId}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Integer employeeId) throws Exception{
-
         return employeeService.removeEmployee(employeeId);
+    }
+
+    @GetMapping(value = "/employee/{employeeId}")
+    public ResponseEntity<?> searchEmployee(@PathVariable Integer employeeId) throws Exception {
+        return employeeService.findEmployee(employeeId);
+    }
+
+    @PutMapping(value = "/employee")
+    public ResponseEntity<?> updateEmployee(@RequestBody Employee employee) throws Exception {
+        return employeeService.editEmployeeDetails(employee);
     }
 }

@@ -9,3 +9,24 @@ export const addEmployee = async (employeeData) => {
         
     }
 }
+
+export const searchEmployee = async (employeeId) => {
+    try {
+        const response = await apiClient.get(`/employee/${employeeId}`)
+        
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateEmployee = async (updatedData) => {
+    console.log(updatedData);
+    
+    try {
+        const response = await apiClient.put('/employee', updatedData);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

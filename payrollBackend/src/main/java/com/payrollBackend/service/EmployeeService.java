@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,4 +77,41 @@ public class EmployeeService {
     public List<Employee> findAllEmployees() {
         return employeeRepository.findAll();
     }
+
+    public ResponseEntity<?> findEmployee(Integer employeeId) {
+        Optional<Employee> employee = employeeRepository.findById(employeeId);
+        if(employee.isPresent()){
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Employee not found", HttpStatus.BAD_REQUEST);
+    }
+
+    public ResponseEntity<?> editEmployeeDetails(Employee employee) throws Exception {
+        Integer employeeId = employee.getEmployeeId();
+        Optional<Employee> optionalOldEmployee = Optional.ofNullable(findByEmployeeId(employeeId));
+
+        if (optionalOldEmployee.isEmpty()) {
+            return new ResponseEntity<>("Employee not found", HttpStatus.BAD_REQUEST);
+        }
+
+        Employee existingEmployee = optionalOldEmployee.get();
+
+        Field[] fields = Employee.class.getDeclaredFields();
+        for (Field field : fields) {
+            field.setAccessible(true);
+            try {
+                Object value = field.get(employee);
+                if (value != null) {
+                    field.set(existingEmployee, value);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        employeeRepository.save(existingEmployee);
+
+        return new ResponseEntity<>("Employee updated Successfully", HttpStatus.OK);
+    }
+
 }

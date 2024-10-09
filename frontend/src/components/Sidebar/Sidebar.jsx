@@ -3,11 +3,13 @@ import { List, ListItem, ListItemIcon, ListItemText, Collapse } from "@mui/mater
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PeopleIcon from "@mui/icons-material/People";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import ReceiptIcon from "@mui/icons-material/Receipt";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import DescriptionIcon from "@mui/icons-material/Description"; // For Reports
+import DescriptionIcon from "@mui/icons-material/Description"; 
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+
+
 import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
@@ -36,6 +38,10 @@ const Sidebar = () => {
 
   const handlePayrollMonth = () => {
     navigate('/payrollMonth')
+  }
+
+  const handlePayroll = () => {
+    navigate('/payroll')
   }
 
   return (
@@ -95,22 +101,22 @@ const Sidebar = () => {
           <ListItemIcon>
             <MonetizationOnIcon className="text-white" />
           </ListItemIcon>
-          <ListItemText primary="Payroll" className="text-2xl cursor-pointer" />
+          <ListItemText primary="Payroll Setup" className="text-2xl cursor-pointer" />
           {openPayroll ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
         <Collapse in={openPayroll} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             <ListItem button className="ml-6 hover:bg-blue-600">
               <ListItemIcon>
-                <DescriptionIcon className="text-white" />
+                <AttachMoneyIcon className="text-white" />
               </ListItemIcon>
-              <ListItemText primary="Payroll Month" className="text-2xl cursor-pointer" onClick={handlePayrollMonth} />
+              <ListItemText primary="Payroll" className="text-2xl cursor-pointer" onClick={handlePayroll}/>
             </ListItem>
             <ListItem button className="ml-6 hover:bg-blue-600">
               <ListItemIcon>
-                <DescriptionIcon className="text-white" />
+                <CalendarTodayIcon className="text-white" />
               </ListItemIcon>
-              <ListItemText primary="Payroll Setup" className="text-2xl cursor-pointer" />
+              <ListItemText primary="Payroll Month" className="text-2xl cursor-pointer"  onClick={handlePayrollMonth} />
             </ListItem>
             <ListItem button className="ml-6 hover:bg-blue-600">
               <ListItemIcon>
