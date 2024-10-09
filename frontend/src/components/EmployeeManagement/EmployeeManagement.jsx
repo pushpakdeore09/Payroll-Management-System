@@ -12,6 +12,7 @@ import {
   TableRow,
   Paper,
   Box,
+  Divider,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
@@ -45,9 +46,12 @@ const EmployeeManagement = () => {
 
   return (
     <div className="flex flex-col p-4">
-      <Typography variant="h4" className="mb-2 text-3xl font-bold">
-        Employee Dashboard
-      </Typography>
+        <div className="flex flex-col space-y-6">
+        <Typography variant="h4" className="text-3xl font-bold mb-4">
+          Employee Dashboard
+        </Typography>
+        <Divider sx={{ height: 4, bgcolor: "gray" }} />
+      </div>
 
       <div className="flex justify-between items-center">
         <Button

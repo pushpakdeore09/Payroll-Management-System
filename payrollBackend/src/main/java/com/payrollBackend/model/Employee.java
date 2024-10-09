@@ -60,10 +60,14 @@ public class Employee implements Serializable {
     @OneToMany(mappedBy = "employee")
     private List<Tax> taxes;
 
+
+    @Column(name = "net_salary")
+    private Double netSalary;
+
     public Employee() {
     }
 
-    public Employee(String address, List<Allowances> allowances, Double baseSalary, List<Deductions> deductions, Department department, String designation, Date dob, String email, Integer employeeId, String employeeType, String firstName, String gender, Date joiningDate, String lastName, List<Tax> taxes) {
+    public Employee(String address, List<Allowances> allowances, Double baseSalary, List<Deductions> deductions, Department department, String designation, Date dob, String email, Integer employeeId, String employeeType, String firstName, String gender, Date joiningDate, String lastName, List<Tax> taxes, Double netSalary) {
         this.address = address;
         this.allowances = allowances;
         this.baseSalary = baseSalary;
@@ -79,6 +83,7 @@ public class Employee implements Serializable {
         this.joiningDate = joiningDate;
         this.lastName = lastName;
         this.taxes = taxes;
+        this.netSalary = netSalary;
     }
 
     public String getAddress() {
@@ -199,5 +204,13 @@ public class Employee implements Serializable {
 
     public void setTaxes(List<Tax> taxes) {
         this.taxes = taxes;
+    }
+
+    public Double getNetSalary() {
+        return netSalary;
+    }
+
+    public void setNetSalary(Double netSalary) {
+        this.netSalary = netSalary;
     }
 }

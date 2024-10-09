@@ -20,15 +20,12 @@ public class Payroll {
     @Column(name = "payrollmonth_id", nullable = false)
     private PayrollMonth payrollMonth;
 
-    @Column(name = "net_salary")
-    private Double netSalary;
 
     public Payroll() {
     }
 
-    public Payroll(Employee employee, Double netSalary, Integer payrollId, PayrollMonth payrollMonth, String payrollName) {
+    public Payroll(Employee employee, Integer payrollId, PayrollMonth payrollMonth, String payrollName) {
         this.employee = employee;
-        this.netSalary = netSalary;
         this.payrollId = payrollId;
         this.payrollMonth = payrollMonth;
         this.payrollName = payrollName;
@@ -41,14 +38,6 @@ public class Payroll {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public Double getNetSalary() {
-        return netSalary;
-    }
-
-    public void setNetSalary(Double netSalary) {
-        this.netSalary = netSalary;
     }
 
     public Integer getPayrollId() {

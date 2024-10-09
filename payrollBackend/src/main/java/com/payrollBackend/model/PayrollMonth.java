@@ -3,6 +3,7 @@ package com.payrollBackend.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,10 +18,13 @@ public class PayrollMonth implements Serializable {
     private String monthName;
 
     @Column(name = "start_date", nullable = false)
-    private String startDate;
+    private Date startDate;
 
     @Column(name = "end_date", nullable = false)
-    private String endDate;
+    private Date endDate;
+
+    @Column(name = "year", nullable = false)
+    private Integer year;
 
     @OneToMany(mappedBy = "payrollMonth")
     private List<Payroll> payrolls;
@@ -28,11 +32,12 @@ public class PayrollMonth implements Serializable {
     public PayrollMonth() {
     }
 
-    public PayrollMonth(Integer payrollMonthId, String monthName, String startDate, String endDate, List<Payroll> payrolls) {
+    public PayrollMonth(Integer payrollMonthId, String monthName, Date startDate, Date endDate, Integer year, List<Payroll> payrolls) {
         this.payrollMonthId = payrollMonthId;
         this.monthName = monthName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.year = year;
         this.payrolls = payrolls;
     }
 
@@ -52,20 +57,28 @@ public class PayrollMonth implements Serializable {
         this.monthName = monthName;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public String getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public List<Payroll> getPayrolls() {
