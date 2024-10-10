@@ -32,7 +32,6 @@ const AddDepartmentModal = ({ open, handleClose }) => {
   const handleAddDepartment = async (values, { resetForm }) => {
     try {
       const response = await addDepartment(values);
-      console.log("response", response);
       toast.success("Department added Successfully", { autoClose: 2000 });
       resetForm();
       handleClose();

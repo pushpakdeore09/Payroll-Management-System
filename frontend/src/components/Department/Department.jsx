@@ -13,8 +13,8 @@ import {
   Box,
   InputAdornment,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SearchIcon from "@mui/icons-material/Search";
 import React, { useState } from "react";
 import AddDepartmentModal from "./AddDepartmentModal";
 import { deleteDepartment, getAllDept, getDeptByName } from "../api/deptApi";
@@ -24,6 +24,7 @@ const Department = () => {
   const [openAddDepartmentModal, setOpenAddDepartmentModal] = useState(false);
   const [departments, setDepartments] = useState([]);
   const [searchInput, setSearchInput] = useState("");
+  const [searchAttempted, setSearchAttempted] = useState(false);
 
   const handleOpenDepartmentAddModal = () => {
     setOpenAddDepartmentModal(true);
@@ -37,17 +38,24 @@ const Department = () => {
     setSearchInput(event.target.value);
   };
 
-  const handleSearch = async (searchInput) => {
-    console.log(searchInput);
-
+  const handleSearch = async () => {
+    setSearchAttempted(true);
     try {
       const response = await getDeptByName(searchInput);
-      setDepartments(response.data);
-      console.log("dept", response);
+      const departmentData = response.data; 
+      if (departmentData && departmentData.deptId) {
+        setDepartments([departmentData]);
+      } else {
+        toast.error("No department found", { autoClose: 2000 });
+        setDepartments([]); 
+      }
     } catch (error) {
-      toast.error(error.response.data, { autoClose: 2000 });
+      console.error("Error fetching department:", error); 
+      toast.error("Error fetching department", { autoClose: 2000 });
+      setDepartments([]);
     }
   };
+  
 
   const handleDeleteDept = async (deptId) => {
     try {
@@ -64,9 +72,14 @@ const Department = () => {
   const handleShowDept = async () => {
     try {
       const response = await getAllDept();
-      setDepartments(response.data);
+      if (response.data && response.data.length > 0) {
+        setDepartments(response.data); 
+      } else {
+        toast.error("No departments found", { autoClose: 2000 });
+        setDepartments([]); 
+      }
     } catch (error) {
-      toast.error("No departments found", { autoClose: 2000 });
+      console.error("Error loading departments:", error);
     }
   };
 
@@ -80,28 +93,27 @@ const Department = () => {
       </div>
       <div style={{ padding: "20px" }}>
         <Grid2 container spacing={2} alignItems="flex-end">
-          <Grid2 item xs={10} size={8}>
-              <TextField
-                readOnly
-                label="Department Name"
-                variant="outlined"
-                size="small"
-                fullWidth
-                value={searchInput}
-                onChange={handleSearchChange}
-              />
+          <Grid2 item xs={10}>
+            <TextField
+              required
+              label="Department Name"
+              variant="outlined"
+              size="small"
+              fullWidth
+              value={searchInput}
+              onChange={handleSearchChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleSearch}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Grid2>
 
-          <Grid2 item xs={2}>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={handleShowDept}
-            >
-              Show
-            </Button>
-          </Grid2>
           <Grid2 item xs={2}>
             <Button
               variant="contained"
@@ -112,9 +124,25 @@ const Department = () => {
               Add New
             </Button>
           </Grid2>
+          <Grid2 item xs={2}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={handleShowDept}
+            >
+              Get All Departments
+            </Button>
+          </Grid2>
         </Grid2>
 
-        {departments.length > 0 ? (
+        {searchAttempted && departments.length === 0 && (
+          <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
+            No department found
+          </Typography>
+        )}
+
+        {departments.length > 0 && (
           <Box
             sx={{
               mt: 2,
@@ -145,39 +173,24 @@ const Department = () => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6" fontWeight="bold">
-                      Edit
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
                       Delete
                     </Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {departments.map((department, index) => (
-                  <TableRow key={index}>
+                {departments.map((department) => (
+                  <TableRow key={department.deptId}>
                     <TableCell>
                       <Typography variant="h6">{department.deptId}</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">
-                        {department.deptName}
-                      </Typography>
+                      <Typography variant="h6">{department.deptName}</Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">
-                        {department.numOfEmployees !== null &&
-                        department.numOfEmployees !== undefined
-                          ? department.numOfEmployees
-                          : 0}
+                        {department.employeeCount || 0}
                       </Typography>
-                    </TableCell>
-                    <TableCell>
-                      <IconButton>
-                        <EditIcon />
-                      </IconButton>
                     </TableCell>
                     <TableCell>
                       <IconButton
@@ -191,10 +204,6 @@ const Department = () => {
               </TableBody>
             </Table>
           </Box>
-        ) : (
-          <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
-            Departments not found
-          </Typography>
         )}
       </div>
       <div>

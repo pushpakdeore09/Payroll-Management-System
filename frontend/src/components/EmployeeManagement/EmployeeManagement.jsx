@@ -13,89 +13,120 @@ import {
   Paper,
   Box,
   Divider,
+  Grid2,
+  IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { useNavigate } from "react-router-dom";
-import { searchEmployee } from "../api/employeeApi";
+import { getAllEmployees, searchEmployee } from "../api/employeeApi";
+import { toast } from "react-toastify";
 
 const EmployeeManagement = () => {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
-  const [employee, setEmployee] = useState(null);
+  const [employees, setEmployees] = useState([]);
   const [searchAttempted, setSearchAttempted] = useState(false);
 
   const handleAddNewEmployee = () => {
     navigate("/addEmployee");
   };
 
-  const handleEditEmployee = () => {
-    navigate(`/employee/${employee.employeeId}`);
+  const handleEditEmployee = (employeeId) => {
+    navigate(`/employee/${employeeId}`);
   };
 
   const handleSearchEmployee = async () => {
     try {
       const response = await searchEmployee(searchValue);
-      setEmployee(response);
+      setEmployees(response ? [response] : []); // Wrap single response in an array
       setSearchAttempted(true);
     } catch (error) {
       setSearchAttempted(true);
       console.error("Error fetching employee data:", error);
-      setEmployee(null);
+      setEmployees([]);
+    }
+  };
+
+  const handleGetAllEmployees = async () => {
+    try {
+      const response = await getAllEmployees();
+      if (response.data && response.data.length > 0) {
+        setEmployees(response.data);
+      } else {
+        toast.error("No employees found", { autoClose: 2000 });
+        setEmployees([]);
+      }
+    } catch (error) {
+      console.error("Error loading employees:", error);
     }
   };
 
   return (
     <div className="flex flex-col p-4">
-        <div className="flex flex-col space-y-6">
+      <div className="flex flex-col space-y-6">
         <Typography variant="h4" className="text-3xl font-bold mb-4">
           Employee Dashboard
         </Typography>
-        <Divider sx={{ height: 4, bgcolor: "gray" }} />
+        <Divider />
       </div>
 
-      <div className="flex justify-between items-center">
-        <Button
-          variant="contained"
-          color="primary"
-          fullWidth
-          size="medium"
-          sx={{ width: "200px", marginBottom: "16px", marginTop: "25px" }}
-          onClick={handleAddNewEmployee}
-        >
-          + Add New Employee
-        </Button>
-
-        <div style={{ position: "relative", width: "300px" }}>
+      {/* Search Employee Section */}
+      <Grid2
+        container
+        spacing={2}
+        alignItems="flex-start"
+        sx={{ marginTop: 2 }}
+      >
+        <Grid2 item xs={10}>
           <TextField
-            label="Search Employee"
+            required
+            label="Enter Employee ID"
             variant="outlined"
             size="small"
             fullWidth
-            className="mb-2"
-            sx={{ width: "100%" }}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <SearchIcon
-                    style={{ cursor: "pointer" }}
-                    onClick={handleSearchEmployee}
-                  />
+                  <IconButton onClick={handleSearchEmployee}>
+                    <SearchIcon />
+                  </IconButton>
                 </InputAdornment>
               ),
             }}
+            onChange={(e) => setSearchValue(e.target.value)} // Capture input value
           />
-        </div>
-      </div>
+        </Grid2>
 
-      {searchAttempted && !employee ? (
+        <Grid2 item xs={2}>
+          <Button
+            variant="contained"
+            color="secondary"
+            fullWidth
+            onClick={handleAddNewEmployee}
+          >
+            Add New Employee
+          </Button>
+        </Grid2>
+        
+        <Grid2 item xs={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            fullWidth
+            onClick={handleGetAllEmployees}
+          >
+            Get All Employees
+          </Button>
+        </Grid2>
+      </Grid2>
+
+      {searchAttempted && employees.length === 0 && (
         <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
           Employee not found
         </Typography>
-      ) : null}
+      )}
 
-      {employee ? (
+      {employees.length > 0 && (
         <Box
           sx={{
             overflowX: "auto",
@@ -149,35 +180,37 @@ const EmployeeManagement = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>
-                    <Typography variant="h6">{employee.employeeId}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">
-                      {employee.firstName} {employee.lastName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">{employee.designation}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">
-                      {employee.department.deptName}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">{employee.email}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">{employee.baseSalary}</Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="h6">
-                      {new Date(employee.joiningDate).toLocaleDateString()}
-                    </Typography>
-                  </TableCell>
-                </TableRow>
+                {employees.map(emp => (
+                  <TableRow key={emp.employeeId}>
+                    <TableCell>
+                      <Typography variant="h6">{emp.employeeId}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">
+                        {emp.firstName} {emp.lastName}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{emp.designation}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">
+                        {emp.department.deptName}
+                      </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{emp.email}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{emp.baseSalary}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">
+                        {new Date(emp.joiningDate).toLocaleDateString()}
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           </TableContainer>
@@ -187,14 +220,14 @@ const EmployeeManagement = () => {
             <Button
               variant="contained"
               color="secondary"
-              onClick={handleEditEmployee}
+              onClick={() => handleEditEmployee(employees[0].employeeId)} // Edit the first employee in the array
               sx={{ width: 200, marginRight: 2, marginBottom: 2 }}
             >
               Edit Employee
             </Button>
           </Box>
         </Box>
-      ) : null}
+      )}
     </div>
   );
 };
