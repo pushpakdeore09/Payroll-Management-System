@@ -66,12 +66,9 @@ public class EmployeeService {
         return new ResponseEntity<>("Employee removed", HttpStatus.OK);
     }
 
-    public Employee findByEmployeeId(Integer employeeId) throws Exception {
+    public Employee findByEmployeeId(Integer employeeId) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);
-        if(employee.isEmpty()){
-            throw new Exception("Employee not found");
-        }
-        return employee.get();
+        return employee.orElse(null);
     }
 
     public List<Employee> findAllEmployees() {

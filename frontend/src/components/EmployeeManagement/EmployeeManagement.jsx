@@ -67,10 +67,9 @@ const EmployeeManagement = () => {
         <Typography variant="h4" className="text-3xl font-bold mb-4">
           Employee Dashboard
         </Typography>
-        <Divider />
+        <Divider sx={{ height: 4, bgcolor: "gray" }} />
       </div>
 
-      {/* Search Employee Section */}
       <Grid2
         container
         spacing={2}

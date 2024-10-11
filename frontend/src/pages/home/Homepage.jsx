@@ -25,7 +25,7 @@ const Homepage = () => {
     <>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px' }}>
         <div className='mt-5 ml-5'>
-          <Typography variant='h3' className='text-2xl'>Welcome</Typography>
+          <Typography variant='h3' className='text-2xl'>Welcome to PayEase</Typography>
         </div>
         <div className='mr-5'>
           <IconButton onClick={handleClick}>
@@ -59,7 +59,7 @@ const Homepage = () => {
           Payroll Management System
         </Typography>
         <Typography variant="h6" className='text-center' gutterBottom>
-          This system allows you to manage employee payroll efficiently, including features for:
+          PayEase allows you to manage employee payroll efficiently, including features for:
         </Typography>
 
         <Grid2 container spacing={3}>

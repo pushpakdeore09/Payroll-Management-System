@@ -14,10 +14,12 @@ public class Payroll {
     @Column(name = "payroll_name")
     private String payrollName;
 
-    @Column(name = "employee_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @Column(name = "payrollmonth_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "payrollmonth_id", nullable = false)
     private PayrollMonth payrollMonth;
 
 

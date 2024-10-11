@@ -4,10 +4,7 @@ import com.payrollBackend.model.PayrollMonth;
 import com.payrollBackend.service.PayrollMonthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -19,5 +16,10 @@ public class PayrollMonthController {
     @PostMapping(value = "/addPayrollMonth")
     public ResponseEntity<?> addPayrollMonth(@RequestBody PayrollMonth payrollMonth){
         return payrollMonthService.addPayrollMonth(payrollMonth);
+    }
+
+    @GetMapping(value = "/payrollMonth/{monthName}/{year}")
+    public ResponseEntity<?> searchPayrollMonth(@PathVariable String monthName, @PathVariable Integer year){
+        return payrollMonthService.getPayrollMonths(monthName, year);
     }
 }

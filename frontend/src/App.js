@@ -8,10 +8,11 @@ import Department from './components/Department/Department';
 import Sidebar from './components/Sidebar/Sidebar'; 
 import EmployeeManagement from './components/EmployeeManagement/EmployeeManagement';
 import AddEmployee from './components/EmployeeManagement/AddEmployee';
-import AddPayrollMonth from './components/Payroll/AddPayrollMonth';
+import AddPayrollMonth from './components/PayrollMonth/AddPayrollMonth';
 import EditEmployee from './components/EmployeeManagement/EditEmployee';
 import Payroll from './components/Payroll/Payroll';
-import PayrollMonth from './components/Payroll/PayrollMonth';
+import PayrollMonth from './components/PayrollMonth/PayrollMonth';
+import AddPayroll from './components/Payroll/AddPayroll';
 
 function AppContent() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function AppContent() {
           <Route path='/addPayrollMonth' element={<AddPayrollMonth/>}/>
           <Route path='/payrollMonth' element={<PayrollMonth/>}/>
           <Route path='/payroll' element={<Payroll/>}/>
+          <Route path='/addPayroll' element={<AddPayroll/>}/>
         </Routes>
       </div>
     </div>

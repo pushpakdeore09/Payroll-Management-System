@@ -1,7 +1,14 @@
 import { Button, Divider, Grid2, TextField, Typography } from "@mui/material";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const Payroll = () => {
+
+  const navigate = useNavigate();
+
+  const handleAddPayroll = () => {
+    navigate('/addPayroll')
+  }
   return (
     <>
       <div className="flex flex-col p-4 space-y-6">
@@ -28,7 +35,7 @@ const Payroll = () => {
             </Button>
           </Grid2>
           <Grid2 item xs={2}>
-            <Button variant="contained" color="secondary" fullWidth>
+            <Button variant="contained" color="secondary" fullWidth onClick={handleAddPayroll}>
               Add New
             </Button>
           </Grid2>
