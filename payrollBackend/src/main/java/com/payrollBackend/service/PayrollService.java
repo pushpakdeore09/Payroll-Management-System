@@ -41,6 +41,20 @@ public class PayrollService {
         payroll.setPayrollName(payrollDTO.getPayrollName());
         payrollRepository.save(payroll);
         return new ResponseEntity<>("Payroll created Successfully", HttpStatus.CREATED);
-
     }
+
+    public ResponseEntity<?> findPayrollByName(String payrollName){
+        Payroll payroll = payrollRepository.findByPayrollName(payrollName);
+        if (payroll != null && payroll.getPayrollName().equalsIgnoreCase(payrollName)) {
+            PayrollDTO payrollDTO = new PayrollDTO();
+            payrollDTO.setPayrollName(payroll.getPayrollName());
+            payrollDTO.setEmployeeId(payroll.getEmployee().getEmployeeId());
+            payrollDTO.setMonthName(payroll.getPayrollMonth().getMonthName());
+            payrollDTO.setYear(payroll.getPayrollMonth().getYear());
+
+            return new ResponseEntity<>(payrollDTO, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Payroll not found", HttpStatus.BAD_REQUEST);
+    }
+
 }

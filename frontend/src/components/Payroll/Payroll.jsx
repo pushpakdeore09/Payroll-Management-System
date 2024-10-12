@@ -1,45 +1,152 @@
-import { Button, Divider, Grid2, TextField, Typography } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  Box,
+  Button,
+  Divider,
+  Grid2,
+  TextField,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  IconButton,
+  Typography,
+  InputAdornment,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import React, { useState } from "react";
+import { getPayroll } from "../api/payrollApi";
+import { toast } from "react-toastify";
 
 const Payroll = () => {
+  const [searchInput, setSearchInput] = useState("");
+  const [payrolls, setPayrolls] = useState([]);
+  const [searchAttempted, setSearchAttempted] = useState(false);
 
-  const navigate = useNavigate();
+  const handleSearchChange = (event) => {
+    setSearchInput(event.target.value);
+  };
 
-  const handleAddPayroll = () => {
-    navigate('/addPayroll')
-  }
+  const handleSearch = async () => {
+    setSearchAttempted(true);
+    try {
+      const response = await getPayroll(searchInput);
+      console.log(response);
+      
+      const payrollData = response.data;
+      if (payrollData && payrollData.length > 0) {
+        setPayrolls([payrollData]); 
+      } else {
+        toast.error("No payrolls found", { autoClose: 2000 });
+        setPayrolls([]);
+      }
+    } catch (error) {
+      console.error("Error fetching payroll:", error);
+      toast.error("Error fetching payroll", { autoClose: 2000 });
+      setPayrolls([]);
+    }
+  };
+
   return (
     <>
-      <div className="flex flex-col p-4 space-y-6">
-        <Typography variant="h4" className="text-3xl font-bold mb-4">
+      <div className="flex flex-col">
+        <Typography variant="h4" className="text-3xl font-bold mb-2 p-4">
           Payroll Dashboard
         </Typography>
-        <Divider sx={{ height: 4, bgcolor: "gray" }} />
+        <Divider />
       </div>
-      <div>
-        <Grid2 className="ml-4" container spacing={2} alignItems="flex-end">
+      <div style={{ padding: "20px" }}>
+        <Grid2 container spacing={2} alignItems="flex-end">
           <Grid2 item xs={10} size={8}>
             <TextField
-              readOnly
               label="Payroll Name"
               variant="outlined"
               size="small"
               fullWidth
+              value={searchInput}
+              onChange={handleSearchChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={handleSearch}>
+                      <SearchIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
           </Grid2>
 
           <Grid2 item xs={2}>
-            <Button variant="contained" color="primary" fullWidth>
-              Show
-            </Button>
-          </Grid2>
-          <Grid2 item xs={2}>
-            <Button variant="contained" color="secondary" fullWidth onClick={handleAddPayroll}>
+            <Button variant="contained" color="secondary" fullWidth>
               Add New
             </Button>
           </Grid2>
         </Grid2>
+
+        {searchAttempted && payrolls.length === 0 && (
+          <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
+            No payrolls found
+          </Typography>
+        )}
+
+        {payrolls.length > 0 && (
+          <Box
+            sx={{
+              mt: 2,
+              p: 2,
+              border: "1px solid",
+              borderColor: "grey.300",
+              borderRadius: 1,
+              boxShadow: 2,
+            }}
+          >
+            <Table sx={{ fontSize: "1.2rem" }} style={{ marginTop: "20px" }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <Typography variant="h6" fontWeight="bold">
+                      Payroll Name
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6" fontWeight="bold">
+                      Employee ID
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6" fontWeight="bold">
+                      Month
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography variant="h6" fontWeight="bold">
+                      Year
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {payrolls.map((payroll) => (
+                  <TableRow key={payroll.payrollName}>
+                    <TableCell>
+                      <Typography variant="h6">{payroll.payrollName}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{payroll.employeeId}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{payroll.monthName}</Typography>
+                    </TableCell>
+                    <TableCell>
+                      <Typography variant="h6">{payroll.year}</Typography>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </Box>
+        )}
       </div>
     </>
   );

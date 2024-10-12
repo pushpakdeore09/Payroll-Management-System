@@ -8,3 +8,12 @@ export const addPayroll = async (payrollData) => {
         throw error;
     }
 }
+
+export const getPayroll = async (payrollName) => {
+    try {
+        const response = await apiClient.get(`/payroll/${payrollName}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
