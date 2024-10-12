@@ -53,11 +53,10 @@ public class DepartmentService {
     public ResponseEntity<?> findDepartmentByName(String deptName) {
         Department department = departmentRepository.findByDeptName(deptName);
         if (department != null && department.getDeptName().equalsIgnoreCase(deptName)) {
-            return new ResponseEntity<>(department, HttpStatus.OK);
+                return new ResponseEntity<>(department, HttpStatus.OK);
         }
         return new ResponseEntity<>("Department not found", HttpStatus.BAD_REQUEST);
     }
-
 
     public List<Department> findAllDepartment(){
         List<Department> departments = departmentRepository.findAll();

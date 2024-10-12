@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PayrollService {
 
@@ -38,7 +41,7 @@ public class PayrollService {
         Payroll payroll = new Payroll();
         payroll.setPayrollMonth(payrollMonth);
         payroll.setEmployee(employee);
-        payroll.setPayrollName(payrollDTO.getPayrollName());
+        payroll.setPayrollName(payrollDTO.getPayrollName().toUpperCase());
         payrollRepository.save(payroll);
         return new ResponseEntity<>("Payroll created Successfully", HttpStatus.CREATED);
     }
@@ -47,7 +50,7 @@ public class PayrollService {
         Payroll payroll = payrollRepository.findByPayrollName(payrollName);
         if (payroll != null && payroll.getPayrollName().equalsIgnoreCase(payrollName)) {
             PayrollDTO payrollDTO = new PayrollDTO();
-            payrollDTO.setPayrollName(payroll.getPayrollName());
+            payrollDTO.setPayrollName(payroll.getPayrollName().toUpperCase());
             payrollDTO.setEmployeeId(payroll.getEmployee().getEmployeeId());
             payrollDTO.setMonthName(payroll.getPayrollMonth().getMonthName());
             payrollDTO.setYear(payroll.getPayrollMonth().getYear());
@@ -56,5 +59,26 @@ public class PayrollService {
         }
         return new ResponseEntity<>("Payroll not found", HttpStatus.BAD_REQUEST);
     }
+
+    public ResponseEntity<?> findAllPayrolls() {
+        List<Payroll> payrolls = payrollRepository.findAll();
+
+        if (payrolls.isEmpty()) {
+            return new ResponseEntity<>("No payrolls found", HttpStatus.BAD_REQUEST);
+        }
+
+        List<PayrollDTO> payrollDTOS = payrolls.stream()
+                .map(payroll -> new PayrollDTO(
+                        payroll.getPayrollName().toUpperCase(),
+                        payroll.getEmployee() != null ? payroll.getEmployee().getEmployeeId() : null,
+                        payroll.getPayrollMonth() != null ? payroll.getPayrollMonth().getMonthName() : null,
+                        payroll.getPayrollMonth() != null ? payroll.getPayrollMonth().getYear() : null
+                ))
+                .toList();
+
+        return new ResponseEntity<>(payrollDTOS, HttpStatus.OK);
+    }
+
+
 
 }

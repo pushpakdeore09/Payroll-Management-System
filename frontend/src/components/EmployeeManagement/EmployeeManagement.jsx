@@ -38,7 +38,7 @@ const EmployeeManagement = () => {
   const handleSearchEmployee = async () => {
     try {
       const response = await searchEmployee(searchValue);
-      setEmployees(response ? [response] : []); // Wrap single response in an array
+      setEmployees(response ? [response] : []);
       setSearchAttempted(true);
     } catch (error) {
       setSearchAttempted(true);

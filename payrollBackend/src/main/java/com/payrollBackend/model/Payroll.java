@@ -1,5 +1,6 @@
 package com.payrollBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 
@@ -14,11 +15,13 @@ public class Payroll {
     @Column(name = "payroll_name")
     private String payrollName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     @JoinColumn(name = "payrollmonth_id", nullable = false)
     private PayrollMonth payrollMonth;
 

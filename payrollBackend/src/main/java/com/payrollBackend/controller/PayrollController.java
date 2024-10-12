@@ -24,4 +24,8 @@ public class PayrollController {
         return payrollService.findPayrollByName(payrollName);
     }
 
+    @GetMapping(value = "/payrolls")
+    public ResponseEntity<?> getAllPayrolls() {
+        return payrollService.findAllPayrolls();
+    }
 }

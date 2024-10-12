@@ -17,3 +17,12 @@ export const getPayroll = async (payrollName) => {
         throw error;
     }
 }
+
+export const getAllPayrolls = async () => {
+    try {
+        const response = await apiClient.get("/payrolls");
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

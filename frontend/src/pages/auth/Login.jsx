@@ -25,7 +25,7 @@ const SignInForm = () => {
       const response = await signin(values);
       toast.success("Login Successful", {autoClose: 1500});
       setTimeout(() => {
-        navigate('/');
+        navigate('/home');
       }, 2000);
     } catch (error) {
       console.log("login", error);

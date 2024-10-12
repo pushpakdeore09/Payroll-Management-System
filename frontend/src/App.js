@@ -1,41 +1,53 @@
-import './App.css';
-import SignInForm from './pages/auth/Login';
-import RegisterForm from './pages/auth/Register';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
-import Homepage from './pages/home/Homepage';
-import Department from './components/Department/Department';
-import Sidebar from './components/Sidebar/Sidebar'; 
-import EmployeeManagement from './components/EmployeeManagement/EmployeeManagement';
-import AddEmployee from './components/EmployeeManagement/AddEmployee';
-import AddPayrollMonth from './components/PayrollMonth/AddPayrollMonth';
-import EditEmployee from './components/EmployeeManagement/EditEmployee';
-import Payroll from './components/Payroll/Payroll';
-import PayrollMonth from './components/PayrollMonth/PayrollMonth';
-import AddPayroll from './components/Payroll/AddPayroll';
+import "./App.css";
+import SignInForm from "./pages/auth/Login";
+import RegisterForm from "./pages/auth/Register";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import Homepage from "./pages/home/Homepage";
+import Department from "./components/Department/Department";
+import Sidebar from "./components/Sidebar/Sidebar";
+import EmployeeManagement from "./components/EmployeeManagement/EmployeeManagement";
+import AddEmployee from "./components/EmployeeManagement/AddEmployee";
+import AddPayrollMonth from "./components/PayrollMonth/AddPayrollMonth";
+import EditEmployee from "./components/EmployeeManagement/EditEmployee";
+import Payroll from "./components/Payroll/Payroll";
+import PayrollMonth from "./components/PayrollMonth/PayrollMonth";
+import AddPayroll from "./components/Payroll/AddPayroll";
+import Allowances from "./components/Allowances/Allowances";
+import Deductions from "./components/Deductions/Deductions";
+import Tax from "./components/Tax/Tax";
 
 function AppContent() {
   const location = useLocation();
-  const showSidebar = location.pathname !== '/signin' && location.pathname !== '/signup';
+  const showSidebar =
+    location.pathname !== "/signin" && location.pathname !== "/signup";
 
-
-  
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: "flex" }}>
       {showSidebar && <Sidebar />}
       <div style={{ flex: 1 }}>
         <Routes>
-          <Route path='/signin' element={<SignInForm />} />
-          <Route path='/signup' element={<RegisterForm />} />
-          <Route path='/' element={<Homepage />} />
-          <Route path='/department' element={<Department />} />
-          <Route path='/employee' element={<EmployeeManagement />} />
-          <Route path='/addEmployee' element={<AddEmployee/>}/>
-          <Route path='/employee/:employeeId' element={<EditEmployee/>}/>
-          <Route path='/addPayrollMonth' element={<AddPayrollMonth/>}/>
-          <Route path='/payrollMonth' element={<PayrollMonth/>}/>
-          <Route path='/payroll' element={<Payroll/>}/>
-          <Route path='/addPayroll' element={<AddPayroll/>}/>
+          <Route path="/signin" element={<SignInForm />} />
+          <Route path="/signup" element={<RegisterForm />} />
+          <Route path="/" element={<Navigate to="/signin" replace />} />
+          <Route path="/home" element={<Homepage/>}/>
+          <Route path="/department" element={<Department />} />
+          <Route path="/employee" element={<EmployeeManagement />} />
+          <Route path="/addEmployee" element={<AddEmployee />} />
+          <Route path="/employee/:employeeId" element={<EditEmployee />} />
+          <Route path="/addPayrollMonth" element={<AddPayrollMonth />} />
+          <Route path="/payrollMonth" element={<PayrollMonth />} />
+          <Route path="/payroll" element={<Payroll />} />
+          <Route path="/addPayroll" element={<AddPayroll />} />
+          <Route path="/allowances" element={<Allowances/>}/>
+          <Route path="/deductions" element={<Deductions/>}/>
+          <Route path="/tax" element={<Tax/>}/>
         </Routes>
       </div>
     </div>
@@ -44,11 +56,10 @@ function AppContent() {
 
 function App() {
   return (
-    
-      <BrowserRouter>
-        <AppContent />
-        <ToastContainer/>
-      </BrowserRouter>
+    <BrowserRouter>
+      <AppContent />
+      <ToastContainer />
+    </BrowserRouter>
   );
 }
 

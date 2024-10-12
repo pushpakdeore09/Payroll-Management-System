@@ -14,18 +14,35 @@ import {
   InputAdornment,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { getPayroll } from "../api/payrollApi";
+import { getAllPayrolls, getPayroll } from "../api/payrollApi";
 import { toast } from "react-toastify";
 
 const Payroll = () => {
+  const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [payrolls, setPayrolls] = useState([]);
   const [searchAttempted, setSearchAttempted] = useState(false);
 
+  const handleAddPayroll = () => {
+    navigate('/addPayroll');
+  }
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value);
   };
+
+  const handleGetPayrolls = async () => {
+    try {
+      const response = await getAllPayrolls();
+      console.log(response.data);
+      
+      setPayrolls(response.data)
+      
+    } catch (error) {
+      toast.error(error.response.data, {autoClose: 2000});
+    }
+  }
 
   const handleSearch = async () => {
     setSearchAttempted(true);
@@ -34,7 +51,7 @@ const Payroll = () => {
       console.log(response);
       
       const payrollData = response.data;
-      if (payrollData && payrollData.length > 0) {
+      if (payrollData) {
         setPayrolls([payrollData]); 
       } else {
         toast.error("No payrolls found", { autoClose: 2000 });
@@ -78,13 +95,18 @@ const Payroll = () => {
           </Grid2>
 
           <Grid2 item xs={2}>
-            <Button variant="contained" color="secondary" fullWidth>
+            <Button variant="contained" color="primary" fullWidth onClick={handleAddPayroll}>
               Add New
+            </Button>
+          </Grid2>
+          <Grid2 item xs={2}>
+            <Button variant="contained" color="secondary" fullWidth onClick={handleGetPayrolls}>
+              Get All Payrolls
             </Button>
           </Grid2>
         </Grid2>
 
-        {searchAttempted && payrolls.length === 0 && (
+        {searchAttempted && !payrolls && (
           <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
             No payrolls found
           </Typography>
@@ -127,8 +149,8 @@ const Payroll = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {payrolls.map((payroll) => (
-                  <TableRow key={payroll.payrollName}>
+                {payrolls.map((payroll, index) => (
+                  <TableRow key={index}>
                     <TableCell>
                       <Typography variant="h6">{payroll.payrollName}</Typography>
                     </TableCell>
