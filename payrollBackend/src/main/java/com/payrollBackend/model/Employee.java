@@ -1,5 +1,6 @@
 package com.payrollBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.payrollBackend.service.DepartmentDeserialize;
 import jakarta.persistence.*;
@@ -52,6 +53,7 @@ public class Employee implements Serializable {
     private Department department;
 
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore
     private List<Allowances> allowances;
 
     @OneToMany(mappedBy = "employee")

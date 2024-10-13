@@ -48,7 +48,6 @@ const Payroll = () => {
     setSearchAttempted(true);
     try {
       const response = await getPayroll(searchInput);
-      console.log(response);
       
       const payrollData = response.data;
       if (payrollData) {
@@ -70,7 +69,7 @@ const Payroll = () => {
         <Typography variant="h4" className="text-3xl font-bold mb-2 p-4">
           Payroll Dashboard
         </Typography>
-        <Divider />
+        <Divider sx={{ height: 4, bgcolor: "gray" }}/>
       </div>
       <div style={{ padding: "20px" }}>
         <Grid2 container spacing={2} alignItems="flex-end">

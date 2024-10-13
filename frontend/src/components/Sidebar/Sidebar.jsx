@@ -25,12 +25,12 @@ const Sidebar = () => {
   const [openGeneralSetup, setOpenGeneralSetup] = useState(false);
   const [openEmployeeMgmt, setOpenEmployeeMgmt] = useState(false);
   const [openPayroll, setOpenPayroll] = useState(false);
-  const [openAllowDed, setOpenAllowDed] = useState(false); // State for Allowances, Deductions, Tax
+  const [openAllowDed, setOpenAllowDed] = useState(false); 
 
   const toggleGeneralSetup = () => setOpenGeneralSetup(!openGeneralSetup);
   const toggleEmployeeMgmt = () => setOpenEmployeeMgmt(!openEmployeeMgmt);
   const togglePayroll = () => setOpenPayroll(!openPayroll);
-  const toggleAllowDed = () => setOpenAllowDed(!openAllowDed); // Toggle function for Allowances, Deductions, Tax
+  const toggleAllowDed = () => setOpenAllowDed(!openAllowDed); 
 
   const handleDepartment = () => {
     navigate("/department");
@@ -160,9 +160,9 @@ const Sidebar = () => {
                 <AttachMoneyIcon className="text-white" />
               </ListItemIcon>
               <ListItemText
-                primary="Payroll"
+                primary="Payroll Month"
                 className="text-2xl cursor-pointer"
-                onClick={handlePayroll}
+                onClick={handlePayrollMonth}
               />
             </ListItem>
             <ListItem button className="ml-6 hover:bg-blue-600">
@@ -170,9 +170,9 @@ const Sidebar = () => {
                 <CalendarTodayIcon className="text-white" />
               </ListItemIcon>
               <ListItemText
-                primary="Payroll Month"
+                primary="Payroll"
                 className="text-2xl cursor-pointer"
-                onClick={handlePayrollMonth}
+                onClick={handlePayroll}
               />
             </ListItem>
           </List>

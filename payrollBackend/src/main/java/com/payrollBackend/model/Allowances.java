@@ -13,8 +13,14 @@ public class Allowances {
     @Column(name = "allowance_name", nullable = false)
     private String allowanceName;
 
+    @Column(name = "allowance_type", nullable = false)
+    private String allowanceType;
+
     @Column(name = "allowance_percent", nullable = false)
     private Double allowancePercentage;
+
+    @Column(name = "allowance_amount")
+    private Double allowanceAmount;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
@@ -23,10 +29,12 @@ public class Allowances {
     public Allowances() {
     }
 
-    public Allowances(Integer allowanceId, Double allowancePercentage, String allowanceName, Employee employee) {
+    public Allowances(Integer allowanceId, String allowanceName, Double allowancePercentage, String allowanceType, Double allowanceAmount, Employee employee) {
         this.allowanceId = allowanceId;
-        this.allowancePercentage = allowancePercentage;
         this.allowanceName = allowanceName;
+        this.allowancePercentage = allowancePercentage;
+        this.allowanceType = allowanceType;
+        this.allowanceAmount = allowanceAmount;
         this.employee = employee;
     }
 
@@ -52,6 +60,22 @@ public class Allowances {
 
     public void setAllowanceName(String allowancesName) {
         this.allowanceName = allowancesName;
+    }
+
+    public String getAllowanceType() {
+        return allowanceType;
+    }
+
+    public void setAllowanceType(String allowanceType) {
+        this.allowanceType = allowanceType;
+    }
+
+    public Double getAllowanceAmount() {
+        return allowanceAmount;
+    }
+
+    public void setAllowanceAmount(Double allowanceAmount) {
+        this.allowanceAmount = allowanceAmount;
     }
 
     public Employee getEmployee() {

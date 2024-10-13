@@ -20,6 +20,7 @@ import Payroll from "./components/Payroll/Payroll";
 import PayrollMonth from "./components/PayrollMonth/PayrollMonth";
 import AddPayroll from "./components/Payroll/AddPayroll";
 import Allowances from "./components/Allowances/Allowances";
+import AddAllowances from "./components/Allowances/AddAllowances";
 import Deductions from "./components/Deductions/Deductions";
 import Tax from "./components/Tax/Tax";
 
@@ -46,6 +47,7 @@ function AppContent() {
           <Route path="/payroll" element={<Payroll />} />
           <Route path="/addPayroll" element={<AddPayroll />} />
           <Route path="/allowances" element={<Allowances/>}/>
+          <Route path="/addAllowance" element={<AddAllowances/>}/>
           <Route path="/deductions" element={<Deductions/>}/>
           <Route path="/tax" element={<Tax/>}/>
         </Routes>

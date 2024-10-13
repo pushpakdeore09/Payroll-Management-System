@@ -119,7 +119,6 @@ const AddPayroll = () => {
               />
             </div>
 
-            {/* Submit Button */}
             <div className="col-span-2 flex justify-center">
               <Button
                 type="submit"
