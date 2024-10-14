@@ -23,6 +23,7 @@ import Allowances from "./components/Allowances/Allowances";
 import AddAllowances from "./components/Allowances/AddAllowances";
 import Deductions from "./components/Deductions/Deductions";
 import Tax from "./components/Tax/Tax";
+import AddDeductions from "./components/Deductions/AddDeductions";
 
 function AppContent() {
   const location = useLocation();
@@ -49,6 +50,7 @@ function AppContent() {
           <Route path="/allowances" element={<Allowances/>}/>
           <Route path="/addAllowance" element={<AddAllowances/>}/>
           <Route path="/deductions" element={<Deductions/>}/>
+          <Route path="/addDeductions" element={<AddDeductions/>}/>
           <Route path="/tax" element={<Tax/>}/>
         </Routes>
       </div>

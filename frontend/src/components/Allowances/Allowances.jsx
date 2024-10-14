@@ -15,8 +15,8 @@ import {
   import { useNavigate } from "react-router-dom";
   import { getAllowance } from "../api/allowanceApi";
   import { toast } from "react-toastify";
-  import EditIcon from "@mui/icons-material/Edit"; // Import Edit icon
-  import DeleteIcon from "@mui/icons-material/Delete"; // Import Delete icon
+  import EditIcon from "@mui/icons-material/Edit";
+  import DeleteIcon from "@mui/icons-material/Delete"; 
   
   const Allowances = () => {
     const navigate = useNavigate();
@@ -44,12 +44,10 @@ import {
     };
   
     const handleUpdate = (allowanceId) => {
-      // Placeholder for update functionality
       console.log(`Update allowance with ID: ${allowanceId}`);
     };
   
     const handleDelete = (allowanceId) => {
-      // Placeholder for delete functionality
       console.log(`Delete allowance with ID: ${allowanceId}`);
     };
   
