@@ -57,6 +57,7 @@ public class Employee implements Serializable {
     private List<Allowances> allowances;
 
     @OneToMany(mappedBy = "employee")
+    @JsonIgnore
     private List<Deductions> deductions;
 
     @OneToMany(mappedBy = "employee")

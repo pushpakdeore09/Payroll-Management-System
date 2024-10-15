@@ -13,42 +13,54 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllowance } from "../api/allowanceApi";
 import { toast } from "react-toastify";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete"; 
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteDeduction, getDeduction } from "../api/deductionApi";
 
 const Deductions = () => {
   const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
   const [searchAttempted, setSearchAttempted] = useState(false);
-  const [allowances, setAllowances] = useState([]);
+  const [deductions, setDeductions] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value);
   };
 
-  const handleSearchAllowance = async () => {
+  const handleSearchDeduction = async () => {
     setSearchAttempted(true);
     try {
-      const response = await getAllowance(searchInput);
-      const allowanceData = response.data;
-      setAllowances(allowanceData);
+      const response = await getDeduction(searchInput);
+      const deductionData = response.data;
+      setDeductions(deductionData);
     } catch (error) {
       toast.error(error.response.data, { autoClose: 2000 });
     }
   };
 
-  const handleAddAllowance = () => {
+  const handleAddDeduction = () => {
     navigate("/addDeductions");
   };
 
-  const handleUpdate = (allowanceId) => {
-    console.log(`Update allowance with ID: ${allowanceId}`);
+  const handleUpdate = (deductionId) => {
+    console.log(`Update deduction with ID: ${deductionId}`);
   };
 
-  const handleDelete = (allowanceId) => {
-    console.log(`Delete allowance with ID: ${allowanceId}`);
+  const handleDelete = async (deductionId) => {
+    console.log(deductionId);
+
+    try {
+      const response = await deleteDeduction(deductionId);
+      toast.success(response.data, { autoClose: 2000 });
+      setDeductions((prevDeductions) =>
+        prevDeductions.filter(
+          (deduction) => deduction.deductionId !== deductionId
+        )
+      );
+    } catch (error) {
+      toast.error(error.response?.data, { autoClose: 2000 });
+    }
   };
 
   return (
@@ -77,7 +89,7 @@ const Deductions = () => {
               variant="contained"
               color="primary"
               fullWidth
-              onClick={handleSearchAllowance}
+              onClick={handleSearchDeduction}
             >
               Search
             </Button>
@@ -87,20 +99,20 @@ const Deductions = () => {
               variant="contained"
               color="secondary"
               fullWidth
-              onClick={handleAddAllowance}
+              onClick={handleAddDeduction}
             >
               Add New
             </Button>
           </Grid2>
         </Grid2>
 
-        {searchAttempted && !allowances && (
+        {searchAttempted && !deductions && (
           <Typography variant="h6" color="error" style={{ marginTop: "20px" }}>
             No deductions found
           </Typography>
         )}
 
-        {allowances.length > 0 && (
+        {deductions.length > 0 && (
           <Box
             sx={{
               mt: 2,
@@ -121,22 +133,22 @@ const Deductions = () => {
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6" fontWeight="bold">
-                    Deductions Name
+                      Deductions Name
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6" fontWeight="bold">
-                    Deductions Percent
+                      Deductions Percent
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6" fontWeight="bold">
-                    Deductions Type
+                      Deductions Type
                     </Typography>
                   </TableCell>
                   <TableCell>
                     <Typography variant="h6" fontWeight="bold">
-                    Deductions Amount
+                      Deductions Amount
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -152,44 +164,44 @@ const Deductions = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {allowances.map((allowance, index) => (
+                {deductions.map((deduction, index) => (
                   <TableRow key={index}>
                     <TableCell>
                       <Typography variant="h6">
-                        {allowance.employee.employeeId}
+                        {deduction.employee.employeeId}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">
-                        {allowance.allowanceName}
+                        {deduction.deductionName}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">
-                        {allowance.allowancePercentage}%
+                        {deduction.deductionPercentage}%
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">
-                        {allowance.allowanceType}
+                        {deduction.deductionType}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <Typography variant="h6">
-                        {allowance.allowanceAmount}
+                        {deduction.deductionAmount}
                       </Typography>
                     </TableCell>
                     <TableCell>
                       <EditIcon
                         color="primary"
-                        onClick={() => handleUpdate(allowance.allowanceId)}
+                        onClick={() => handleUpdate(deduction.deductionId)}
                         style={{ cursor: "pointer" }}
                       />
                     </TableCell>
                     <TableCell>
                       <DeleteIcon
                         color="secondary"
-                        onClick={() => handleDelete(allowance.allowanceId)}
+                        onClick={() => handleDelete(deduction.deductionId)}
                         style={{ cursor: "pointer" }}
                       />
                     </TableCell>

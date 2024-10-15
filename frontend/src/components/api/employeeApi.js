@@ -3,6 +3,8 @@ import apiClient from "./apiClient";
 export const addEmployee = async (employeeData) => {
     try {
         const response = await apiClient.post('/addEmployee', employeeData);
+        console.log(response);
+        
         return response;
     } catch (error) {
         throw error;

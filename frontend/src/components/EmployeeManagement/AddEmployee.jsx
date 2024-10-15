@@ -76,7 +76,11 @@ const AddEmployee = () => {
     };
     try {
       const response = await addEmployee(employeeData);
-      toast.success(response.data, { autoClose: 2000 });
+      const employeeId = response.data.employeeId;
+      const message = response.data.message;
+      toast.success(`${message} with Employee ID: ${employeeId}`, {
+        autoClose: 2000,
+      });
       resetForm();
       setSelectedDepartment("");
     } catch (error) {

@@ -15,7 +15,6 @@ export const signin = async (loginUser) => {
 
     try {
         const response = await apiClient.post('/signin', loginUser)
-        console.log("Signin response", response);
         return response.data;
         
     } catch (error) {

@@ -17,3 +17,12 @@ export const getAllowance = async (employeeId) =>{
         throw error;
     }
 }
+
+export const deleteAllowance = async (allowanceId) => {
+    try {
+        const response = await apiClient.delete(`allowance/${allowanceId}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

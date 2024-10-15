@@ -3,6 +3,7 @@ package com.payrollBackend.controller;
 import com.payrollBackend.dto.AllowanceDTO;
 import com.payrollBackend.model.Allowances;
 import com.payrollBackend.service.AllowanceService;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +23,10 @@ public class AllowanceController {
     @GetMapping(value = "/allowances/{employeeId}")
     public ResponseEntity<?> getAllowances(@PathVariable Integer employeeId){
         return allowanceService.getAllowancesByEmployeeId(employeeId);
+    }
+
+    @DeleteMapping(value = "/allowance/{allowanceId}")
+    public ResponseEntity<?> deleteAllowance(@PathVariable Integer allowanceId){
+        return allowanceService.removeAllowance(allowanceId);
     }
 }

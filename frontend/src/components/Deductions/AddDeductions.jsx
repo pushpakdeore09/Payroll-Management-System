@@ -12,37 +12,38 @@ import { addDeductions } from "../api/deductionApi";
 import { toast } from "react-toastify";
 
 const AddDeductions = () => {
-  const allowanceTypes = ["Recurring Allowance", "One-Time Allowance"];
+  const allowanceTypes = ["Statutory Deduction", "Voluntary Deduction"];
   const initialValues = {
-    allowanceName: "",
+    deductionName: "",
     employeeId: "",
-    allowanceType: "",
-    allowancePercentage: "",
+    deductionType: "",
+    deductionPercentage: "",
   };
 
   const validationSchema = Yup.object().shape({
-    allowanceName: Yup.string()
+    deductionName: Yup.string()
       .required("Deduction name is required")
       .min(3, "Deduction name must be at least 3 characters"),
     employeeId: Yup.string()
       .required("Employee ID is required")
       .matches(/^[0-9]+$/, "Employee ID must be a number"),
-    allowanceType: Yup.string().required("Deduction Type is required"),
-    allowancePercentage: Yup.number()
+    deductionType: Yup.string().required("Deduction Type is required"),
+    deductionPercentage: Yup.number()
       .required("Deduction Percentage is required")
       .min(0, "Deduction percentage cannot be negative")
       .max(100, "Deduction percentage cannot exceed 100"),
   });
 
-  const handleSave = async (values, { resetForm }) => {
+  const handleSave = async (values) => {
     try {
       const response = await addDeductions(values);
       toast.success(response.data, { autoClose: 2000 });
-      resetForm();
     } catch (error) {
-      toast.error(error.response.data, { autoClose: 2000 });
+      const errorMessage = error.response?.data;
+      toast.error(errorMessage, { autoClose: 2000 });
     }
   };
+  
 
   return (
     <div className="flex flex-col p-4 space-y-6">
@@ -63,7 +64,7 @@ const AddDeductions = () => {
                 as={TextField}
                 fullWidth
                 label="Deductions Name"
-                name="allowanceName"
+                name="deductionName"
                 variant="outlined"
                 error={touched.allowanceName && !!errors.allowanceName}
                 helperText={touched.allowanceName && errors.allowanceName}
@@ -87,7 +88,7 @@ const AddDeductions = () => {
                 fullWidth
                 select
                 label="Deductions Type"
-                name="allowanceType"
+                name="deductionType"
                 variant="outlined"
                 error={touched.allowanceType && !!errors.allowanceType}
                 helperText={touched.allowanceType && errors.allowanceType}
@@ -105,7 +106,7 @@ const AddDeductions = () => {
                 as={TextField}
                 fullWidth
                 label="Deductions Percentage"
-                name="allowancePercentage"
+                name="deductionPercentage"
                 type="number"
                 variant="outlined"
                 error={
@@ -118,7 +119,7 @@ const AddDeductions = () => {
             </div>
 
             <div className="col-span-2 flex justify-center">
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="primary" onClick={handleSave}>
                 Save Deduction
               </Button>
             </div>

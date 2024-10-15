@@ -1,15 +1,14 @@
 package com.payrollBackend.controller;
 
 import com.payrollBackend.model.Employee;
-import com.payrollBackend.repository.EmployeeRepository;
 import com.payrollBackend.service.EmployeeService;
-import org.hibernate.dialect.H2Dialect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -26,7 +25,7 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/addEmployee")
-    public ResponseEntity<String> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Map<String, Object>> createEmployee(@RequestBody Employee employee) {
         return employeeService.addEmployee(employee);
     }
 

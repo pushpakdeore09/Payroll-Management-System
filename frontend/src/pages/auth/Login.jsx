@@ -23,15 +23,25 @@ const SignInForm = () => {
   const handleSubmit = async (values) => {
     try {
       const response = await signin(values);
-      toast.success("Login Successful", {autoClose: 1500});
-      setTimeout(() => {
-        navigate('/home');
-      }, 2000);
+      console.log(response);
+      const message = response.body;
+      console.log(message);
+      
+      if (
+        message === "User does not exist!" ||
+        message === "Invalid email or password"
+      ) {
+        toast.error(message, { autoClose: 1500 });
+      } else {
+        toast.success("Login Successfully", { autoClose: 1500 });
+        setTimeout(() => {
+          navigate("/home");
+        }, 2000);
+      }
     } catch (error) {
-      console.log("login", error);
+      toast.error(error.response.body, { autoClose: 1500 });
     }
   };
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
@@ -46,7 +56,10 @@ const SignInForm = () => {
         <div className="bubble"></div>
       </div>
       <div className="w-full max-w-sm p-8 rounded-2xl shadow-lg space-y-5 bg-white relative z-10">
-      <Typography variant="h3" className="text-center text-2xl text-white bg-blue-900 p-2 rounded-xl">
+        <Typography
+          variant="h3"
+          className="text-center text-2xl text-white bg-blue-900 p-2 rounded-xl"
+        >
           Sign in
         </Typography>
 
@@ -99,7 +112,10 @@ const SignInForm = () => {
 
         <Typography variant="body2" className="text-center text-gray-400">
           Don't have an account?{" "}
-          <Link onClick={() => navigate("/signup")} className="text-blue-500 cursor-pointer">
+          <Link
+            onClick={() => navigate("/signup")}
+            className="text-blue-500 cursor-pointer"
+          >
             Sign up
           </Link>
         </Typography>

@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AllowanceService {
@@ -31,12 +34,15 @@ public class AllowanceService {
         if(oldAllowances != null && oldAllowances.getAllowanceName().equalsIgnoreCase(allowanceDTO.getAllowanceName()) && Objects.equals(allowanceDTO.getEmployeeId(), employee.getEmployeeId())){
             return new ResponseEntity<>("Allowance already exists", HttpStatus.BAD_REQUEST);
         }
-        Double allowanceAmount = (allowanceDTO.getAllowancePercentage()/100) * employee.getBaseSalary();
+        BigDecimal allowanceAmount = BigDecimal.valueOf(allowanceDTO.getAllowancePercentage()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(employee.getBaseSalary())).setScale(2, RoundingMode.HALF_UP);
+
+        Double doubleAllowanceAmount = allowanceAmount.doubleValue();
+
         Allowances newAllowances = new Allowances();
         newAllowances.setAllowanceName(allowanceDTO.getAllowanceName());
         newAllowances.setAllowanceType(allowanceDTO.getAllowanceType());
         newAllowances.setAllowancePercentage(allowanceDTO.getAllowancePercentage());
-        newAllowances.setAllowanceAmount(allowanceAmount);
+        newAllowances.setAllowanceAmount(doubleAllowanceAmount);
         newAllowances.setEmployee(employee);
         allowanceRepository.save(newAllowances);
         return new ResponseEntity<>("Allowance added Successfully", HttpStatus.CREATED);
@@ -48,5 +54,14 @@ public class AllowanceService {
             return new ResponseEntity<>("Allowances not found", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(allowances, HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> removeAllowance(Integer allowanceId){
+        Optional<Allowances> allowance = allowanceRepository.findById(allowanceId);
+        if(allowance.isEmpty()){
+            return new ResponseEntity<>("Allowance not found", HttpStatus.BAD_REQUEST);
+        }
+        allowanceRepository.deleteById(allowanceId);
+        return new ResponseEntity<>("Allowance removed Successfully", HttpStatus.OK);
     }
 }

@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -24,15 +26,12 @@ public class EmployeeService {
     private DepartmentRepository departmentRepository;
 
     @Transactional
-    public ResponseEntity<String> addEmployee(Employee employee) {
-
+    public ResponseEntity<Map<String, Object>> addEmployee(Employee employee) {
         Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
-
         Optional<Employee> isEmpExist = Optional.ofNullable(employeeRepository.findByEmail(employee.getEmail()));
         if(isEmpExist.isPresent()){
-            return new ResponseEntity<>("Employee already Exist", HttpStatus.CONFLICT);
+            return new ResponseEntity<>(Map.of("message", "Employee already exists"), HttpStatus.CONFLICT);
         }
-
         Employee newEmployee = new Employee();
         newEmployee.setFirstName(employee.getFirstName());
         newEmployee.setLastName(employee.getLastName());
@@ -45,17 +44,17 @@ public class EmployeeService {
         newEmployee.setEmployeeType(employee.getEmployeeType());
         newEmployee.setDesignation(employee.getDesignation());
         newEmployee.setDepartment(department);
-
+        newEmployee.setNetSalary(0.0);
         employeeRepository.save(newEmployee);
-
         if (department.getEmployeeCount() == null) {
             department.setEmployeeCount(1);
         } else {
             department.setEmployeeCount(department.getEmployeeCount() + 1);
         }
-
-
-        return new ResponseEntity<>("Employee added Successfully", HttpStatus.CREATED);
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Employee added successfully");
+        response.put("employeeId", newEmployee.getEmployeeId());
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     public ResponseEntity<String> removeEmployee(Integer employeeId) throws Exception {
