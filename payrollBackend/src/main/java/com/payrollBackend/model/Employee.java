@@ -47,20 +47,20 @@ public class Employee implements Serializable {
     @Column(name = "designation")
     private String designation;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "dept_id", nullable = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "dept_id")
     @JsonDeserialize(using = DepartmentDeserialize.class)
     private Department department;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Allowances> allowances;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Deductions> deductions;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
     private List<Tax> taxes;
 
 

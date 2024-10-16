@@ -1,17 +1,13 @@
-import {
-  Button,
-  Divider,
-  MenuItem,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Divider, MenuItem, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { addDeductions } from "../api/deductionApi";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; 
 
 const AddDeductions = () => {
+  const navigate = useNavigate(); 
   const allowanceTypes = ["Statutory Deduction", "Voluntary Deduction"];
   const initialValues = {
     deductionName: "",
@@ -43,7 +39,10 @@ const AddDeductions = () => {
       toast.error(errorMessage, { autoClose: 2000 });
     }
   };
-  
+
+  const handleBack = () => {
+    navigate("/deductions"); 
+  };
 
   return (
     <div className="flex flex-col p-4 space-y-6">
@@ -66,8 +65,8 @@ const AddDeductions = () => {
                 label="Deductions Name"
                 name="deductionName"
                 variant="outlined"
-                error={touched.allowanceName && !!errors.allowanceName}
-                helperText={touched.allowanceName && errors.allowanceName}
+                error={touched.deductionName && !!errors.deductionName}
+                helperText={touched.deductionName && errors.deductionName}
               />
             </div>
             <div>
@@ -90,10 +89,10 @@ const AddDeductions = () => {
                 label="Deductions Type"
                 name="deductionType"
                 variant="outlined"
-                error={touched.allowanceType && !!errors.allowanceType}
-                helperText={touched.allowanceType && errors.allowanceType}
+                error={touched.deductionType && !!errors.deductionType}
+                helperText={touched.deductionType && errors.deductionType}
               >
-                <MenuItem value="">Select Allowance Type</MenuItem>
+                <MenuItem value="">Select Deduction Type</MenuItem>
                 {allowanceTypes.map((allowanceType, index) => (
                   <MenuItem key={index} value={allowanceType}>
                     {allowanceType}
@@ -110,16 +109,28 @@ const AddDeductions = () => {
                 type="number"
                 variant="outlined"
                 error={
-                  touched.allowancePercentage && !!errors.allowancePercentage
+                  touched.deductionPercentage && !!errors.deductionPercentage
                 }
                 helperText={
-                  touched.allowancePercentage && errors.allowancePercentage
+                  touched.deductionPercentage && errors.deductionPercentage
                 }
               />
             </div>
 
-            <div className="col-span-2 flex justify-center">
-              <Button type="submit" variant="contained" color="primary" onClick={handleSave}>
+            <div className="col-span-2 flex justify-center space-x-4">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleBack}
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleSave}
+              >
                 Save Deduction
               </Button>
             </div>

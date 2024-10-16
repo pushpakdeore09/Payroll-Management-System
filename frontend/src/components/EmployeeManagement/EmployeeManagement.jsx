@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -17,8 +17,10 @@ import {
   IconButton,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-import { getAllEmployees, searchEmployee } from "../api/employeeApi";
+import { deleteEmployee, getAllEmployees, searchEmployee } from "../api/employeeApi";
 import { toast } from "react-toastify";
 
 const EmployeeManagement = () => {
@@ -26,6 +28,10 @@ const EmployeeManagement = () => {
   const [searchValue, setSearchValue] = useState("");
   const [employees, setEmployees] = useState([]);
   const [searchAttempted, setSearchAttempted] = useState(false);
+
+  useEffect(() => {
+    handleGetAllEmployees();
+  }, []);
 
   const handleAddNewEmployee = () => {
     navigate("/addEmployee");
@@ -35,6 +41,16 @@ const EmployeeManagement = () => {
     navigate(`/employee/${employeeId}`);
   };
 
+  const handleDeleteEmployee = async (employeeId) => {
+    try {
+      const response = await deleteEmployee(employeeId);
+      console.log(response);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  };
   const handleSearchEmployee = async () => {
     try {
       const response = await searchEmployee(searchValue);
@@ -106,7 +122,7 @@ const EmployeeManagement = () => {
             Add New Employee
           </Button>
         </Grid2>
-        
+
         <Grid2 item xs={2}>
           <Button
             variant="contained"
@@ -142,89 +158,148 @@ const EmployeeManagement = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Employee ID
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Name
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Designation
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Department
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Email
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Base Salary
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="h6" fontWeight="bold">
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
                       Joining Date
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
+                      Update
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      sx={{ fontSize: "0.875rem" }}
+                    >
+                      Delete
                     </Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
+
               <TableBody>
-                {employees.map(emp => (
+                {employees.map((emp) => (
                   <TableRow key={emp.employeeId}>
                     <TableCell>
-                      <Typography variant="h6">{emp.employeeId}</Typography>
+                      <Typography sx={{ fontSize: "0.875rem" }}>
+                        {emp.employeeId}
+                      </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">
+                      <Typography sx={{ fontSize: "0.875rem" }}>
                         {emp.firstName} {emp.lastName}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">{emp.designation}</Typography>
+                      <Typography sx={{ fontSize: "0.875rem" }}>
+                        {emp.designation}
+                      </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">
+                      <Typography sx={{ fontSize: "0.875rem" }}>
                         {emp.department.deptName}
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">{emp.email}</Typography>
+                      <Typography sx={{ fontSize: "0.875rem" }}>
+                        {emp.email}
+                      </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">{emp.baseSalary}</Typography>
+                      <Typography sx={{ fontSize: "0.875rem" }}>
+                        {emp.baseSalary}
+                      </Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="h6">
+                      <Typography sx={{ fontSize: "0.875rem" }}>
                         {new Date(emp.joiningDate).toLocaleDateString()}
                       </Typography>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleEditEmployee(emp.employeeId)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton
+                        color="error"
+                        onClick={() => handleDeleteEmployee(emp.employeeId)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
-          <Box
-            sx={{ display: "flex", justifyContent: "flex-end", marginTop: 2 }}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleEditEmployee(employees[0].employeeId)} // Edit the first employee in the array
-              sx={{ width: 200, marginRight: 2, marginBottom: 2 }}
-            >
-              Edit Employee
-            </Button>
-          </Box>
         </Box>
       )}
     </div>

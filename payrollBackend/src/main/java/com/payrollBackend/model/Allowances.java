@@ -22,7 +22,7 @@ public class Allowances {
     @Column(name = "allowance_amount")
     private Double allowanceAmount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 

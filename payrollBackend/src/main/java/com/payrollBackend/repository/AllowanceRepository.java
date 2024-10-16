@@ -1,6 +1,7 @@
 package com.payrollBackend.repository;
 
 import com.payrollBackend.model.Allowances;
+import com.payrollBackend.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface AllowanceRepository extends JpaRepository<Allowances, Integer> 
     List<Allowances> findByEmployee_EmployeeId(Integer employeeId);
 
 
+    List<Allowances> findByEmployee(Employee employee);
 }

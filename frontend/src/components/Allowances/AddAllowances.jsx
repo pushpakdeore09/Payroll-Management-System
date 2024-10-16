@@ -6,12 +6,14 @@ import {
   Typography,
 } from "@mui/material";
 import { Field, Form, Formik } from "formik";
-import React, { useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import { addAllowance } from "../api/allowanceApi";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom"; // For back navigation
 
 const AddAllowances = () => {
+  const navigate = useNavigate();
 
   const allowanceTypes = ["Recurring Allowance", "One-Time Allowance"];
   const initialValues = {
@@ -38,12 +40,15 @@ const AddAllowances = () => {
   const handleSave = async (values, { resetForm }) => {
     try {
       const response = await addAllowance(values);
-      toast.success(response.data, {autoClose: 2000});
-      resetForm(); 
+      toast.success(response.data, { autoClose: 2000 });
+      resetForm();
     } catch (error) {
-      toast.error(error.response.data, {autoClose: 2000});
+      toast.error(error.response.data, { autoClose: 2000 });
     }
-    
+  };
+
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
   };
 
   return (
@@ -115,7 +120,14 @@ const AddAllowances = () => {
               />
             </div>
 
-            <div className="col-span-2 flex justify-center">
+            <div className="col-span-2 flex justify-center space-x-4">
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleBack}
+              >
+                Back
+              </Button>
               <Button type="submit" variant="contained" color="primary">
                 Save Allowance
               </Button>

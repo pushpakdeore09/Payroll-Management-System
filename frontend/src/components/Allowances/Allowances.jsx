@@ -73,6 +73,7 @@ const Allowances = () => {
           <Grid2 item xs={10} size={8}>
             <TextField
               label="Employee ID"
+              required
               variant="outlined"
               size="small"
               type="number"

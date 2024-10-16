@@ -40,3 +40,12 @@ export const getAllEmployees = async () => {
         throw error;
     }
 }
+
+export const deleteEmployee = async (employeeId) => {
+    try {
+        const response = await apiClient.delete(`/employee/${employeeId}`)
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}

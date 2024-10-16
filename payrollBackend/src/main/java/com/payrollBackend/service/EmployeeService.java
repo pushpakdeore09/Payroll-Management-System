@@ -1,9 +1,7 @@
 package com.payrollBackend.service;
 
-import com.payrollBackend.model.Department;
-import com.payrollBackend.model.Employee;
-import com.payrollBackend.repository.DepartmentRepository;
-import com.payrollBackend.repository.EmployeeRepository;
+import com.payrollBackend.model.*;
+import com.payrollBackend.repository.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +23,14 @@ public class EmployeeService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Autowired
+    private PayrollRepository payrollRepository;
+
+    @Autowired
+    private DeductionRepository deductionRepository;
+
+    @Autowired
+    private AllowanceRepository allowanceRepository;
     @Transactional
     public ResponseEntity<Map<String, Object>> addEmployee(Employee employee) {
         Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
@@ -60,10 +66,45 @@ public class EmployeeService {
     public ResponseEntity<String> removeEmployee(Integer employeeId) throws Exception {
 
         Employee employee = findByEmployeeId(employeeId);
+
+        // Delete all related payrolls
+        List<Payroll> payrolls = payrollRepository.findByEmployee(employee);
+        if (payrolls != null && !payrolls.isEmpty()) {
+            payrollRepository.deleteAll(payrolls);
+        }
+
+        // Delete all related allowances
+        List<Allowances> allowances = allowanceRepository.findByEmployee(employee);
+        if (allowances != null && !allowances.isEmpty()) {
+            allowanceRepository.deleteAll(allowances);
+        }
+
+        // Delete all related deductions
+        List<Deductions> deductions = deductionRepository.findByEmployee(employee);
+        if (deductions != null && !deductions.isEmpty()) {
+            deductionRepository.deleteAll(deductions);
+        }
+
+        // Delete the employee
         employeeRepository.delete(employee);
+
+        // Update department's employee count
+        Department department = employee.getDepartment();
+        if (department != null) {
+            // Fetch the department from the database to ensure it's attached to the persistence context
+            Department existingDepartment = departmentRepository.findById(department.getDeptId())
+                    .orElseThrow(() -> new Exception("Department not found"));
+
+            // Decrement employee count
+            existingDepartment.setEmployeeCount(existingDepartment.getEmployeeCount() - 1);
+
+            // Save the updated department (without inserting a new one)
+            departmentRepository.save(existingDepartment);
+        }
 
         return new ResponseEntity<>("Employee removed", HttpStatus.OK);
     }
+
 
     public Employee findByEmployeeId(Integer employeeId) {
         Optional<Employee> employee = employeeRepository.findById(employeeId);

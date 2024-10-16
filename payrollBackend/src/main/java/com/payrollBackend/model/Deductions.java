@@ -22,7 +22,7 @@ public class Deductions {
     @Column(name = "deduction_amount", nullable = false)
     private Double deductionAmount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
