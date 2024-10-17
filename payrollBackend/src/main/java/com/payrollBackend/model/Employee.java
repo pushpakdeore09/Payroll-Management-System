@@ -61,6 +61,7 @@ public class Employee implements Serializable {
     private List<Deductions> deductions;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.REMOVE)
+    @JsonIgnore
     private List<Tax> taxes;
 
 

@@ -30,7 +30,7 @@ const EmployeeManagement = () => {
   const [searchAttempted, setSearchAttempted] = useState(false);
 
   useEffect(() => {
-    handleGetAllEmployees();
+    setEmployees([]);
   }, []);
 
   const handleAddNewEmployee = () => {
@@ -44,13 +44,14 @@ const EmployeeManagement = () => {
   const handleDeleteEmployee = async (employeeId) => {
     try {
       const response = await deleteEmployee(employeeId);
-      console.log(response);
-      
+      toast.success(response.data, {autoClose: 2000});
+      handleGetAllEmployees(); 
     } catch (error) {
       console.log(error);
-      
+      toast.error(error.response.data, {autoClose: 2000});
     }
   };
+
   const handleSearchEmployee = async () => {
     try {
       const response = await searchEmployee(searchValue);
@@ -108,7 +109,7 @@ const EmployeeManagement = () => {
                 </InputAdornment>
               ),
             }}
-            onChange={(e) => setSearchValue(e.target.value)} // Capture input value
+            onChange={(e) => setSearchValue(e.target.value)}
           />
         </Grid2>
 

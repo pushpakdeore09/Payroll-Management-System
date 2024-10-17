@@ -30,8 +30,8 @@ public class AllowanceService {
         if(employee == null) {
             return new ResponseEntity<>("Employee not found", HttpStatus.BAD_REQUEST);
         }
-        Allowances oldAllowances = allowanceRepository.findByAllowanceName(allowanceDTO.getAllowanceName());
-        if(oldAllowances != null && oldAllowances.getAllowanceName().equalsIgnoreCase(allowanceDTO.getAllowanceName()) && Objects.equals(allowanceDTO.getEmployeeId(), employee.getEmployeeId())){
+        Optional<Allowances> oldAllowances = allowanceRepository.findByAllowanceNameAndEmployeeEmployeeId(allowanceDTO.getAllowanceName(), allowanceDTO.getEmployeeId());
+        if(oldAllowances.isPresent()){
             return new ResponseEntity<>("Allowance already exists", HttpStatus.BAD_REQUEST);
         }
         BigDecimal allowanceAmount = BigDecimal.valueOf(allowanceDTO.getAllowancePercentage()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(employee.getBaseSalary())).setScale(2, RoundingMode.HALF_UP);

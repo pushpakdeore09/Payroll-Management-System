@@ -23,6 +23,7 @@ import Allowances from "./components/Allowances/Allowances";
 import AddAllowances from "./components/Allowances/AddAllowances";
 import Deductions from "./components/Deductions/Deductions";
 import Tax from "./components/Tax/Tax";
+import AddTax from "./components/Tax/AddTax";
 import AddDeductions from "./components/Deductions/AddDeductions";
 
 function AppContent() {
@@ -52,6 +53,7 @@ function AppContent() {
           <Route path="/deductions" element={<Deductions/>}/>
           <Route path="/addDeductions" element={<AddDeductions/>}/>
           <Route path="/tax" element={<Tax/>}/>
+          <Route path="/addTax" element={<AddTax/>}/>
         </Routes>
       </div>
     </div>

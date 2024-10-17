@@ -27,11 +27,9 @@ public class DeductionService {
         if(employee == null){
             return new ResponseEntity<>("Employee not found", HttpStatus.BAD_REQUEST);
         }
-        Deductions oldDeductions = deductionRepository.findByDeductionName(deductionDTO.getDeductionName());
-        if (oldDeductions != null
-                && oldDeductions.getDeductionName().equalsIgnoreCase(deductionDTO.getDeductionName())
-                && Objects.equals(deductionDTO.getEmployeeId(), employee.getEmployeeId())) {
-
+        //Deductions oldDeductions = deductionRepository.findByDeductionName(deductionDTO.getDeductionName());
+        Optional<Deductions> oldDeductions = deductionRepository.findByDeductionNameAndEmployeeEmployeeId(deductionDTO.getDeductionName(), deductionDTO.getEmployeeId());
+        if(oldDeductions.isPresent()){
             return new ResponseEntity<>("Deduction already exists", HttpStatus.BAD_REQUEST);
         }
 

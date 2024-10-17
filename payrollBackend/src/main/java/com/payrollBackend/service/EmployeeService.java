@@ -102,7 +102,7 @@ public class EmployeeService {
             departmentRepository.save(existingDepartment);
         }
 
-        return new ResponseEntity<>("Employee removed", HttpStatus.OK);
+        return new ResponseEntity<>("Employee removed Successfully", HttpStatus.OK);
     }
 
 

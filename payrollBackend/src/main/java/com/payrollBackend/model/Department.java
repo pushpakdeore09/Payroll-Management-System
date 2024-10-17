@@ -20,7 +20,7 @@ public class Department implements Serializable {
     @Column(name = "emp_count")
     private Integer employeeCount;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Employee> employees;
 
