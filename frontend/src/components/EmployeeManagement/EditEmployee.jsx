@@ -10,12 +10,41 @@ import {
   MenuItem,
 } from '@mui/material';
 import { Formik, Form, Field } from 'formik';
+import * as Yup from "yup";
 import { useParams } from 'react-router-dom';
 import { searchEmployee, updateEmployee } from '../api/employeeApi';
 import { fetchAllDept } from '../api/deptApi';
 import { toast } from 'react-toastify';
 
 const EditEmployee = () => {
+  const initialValues = {
+    firstName: employee.firstName || "",
+    lastName: employee.lastName || "",
+    gender: employee.gender || "",
+    dob: employee.dob || "",
+    address: employee.address || "",
+    email: employee.email || "",
+    designation: employee.designation || "",
+    joiningDate: employee.joiningDate || "",
+    employeeType: employee.employeeType || "",
+    baseSalary: employee.baseSalary || "",
+    department: employee.department || "",
+  };
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required("Required"),
+    lastName: Yup.string().required("Required"),
+    gender: Yup.string().required("Required"),
+    dob: Yup.date().required("Required").nullable(),
+    address: Yup.string().required("Required"),
+    email: Yup.string().required("Required"),
+    designation: Yup.string().required("Required"),
+    joiningDate: Yup.date().required("Required").nullable(),
+    employeeType: Yup.string().required("Required"),
+    baseSalary: Yup.number()
+      .typeError("Base salary must be a number")
+      .required("Required"),
+    department: Yup.string().required("Required"),
+  });
   const { employeeId } = useParams();
   const [employee, setEmployee] = useState(null);
   const [departments, setDepartments] = useState([]);
@@ -72,19 +101,8 @@ const EditEmployee = () => {
       <Divider sx={{ height: 4, bgcolor: "gray" }} />
 
       <Formik
-        initialValues={{
-          firstName: employee.firstName || "",
-          lastName: employee.lastName || "",
-          gender: employee.gender || "",
-          dob: employee.dob || "",
-          address: employee.address || "",
-          email: employee.email || "",
-          designation: employee.designation || "",
-          joiningDate: employee.joiningDate || "",
-          employeeType: employee.employeeType || "",
-          baseSalary: employee.baseSalary || "",
-          department: employee.department || "",
-        }}
+        initialValues={initialValues}
+        validationSchema={validationSchema}
         onSubmit={handleUpdate}
       >
         {({ setFieldValue }) => (

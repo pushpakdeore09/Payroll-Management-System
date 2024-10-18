@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -35,7 +34,6 @@ public class AllowanceService {
             return new ResponseEntity<>("Allowance already exists", HttpStatus.BAD_REQUEST);
         }
         BigDecimal allowanceAmount = BigDecimal.valueOf(allowanceDTO.getAllowancePercentage()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(employee.getBaseSalary())).setScale(2, RoundingMode.HALF_UP);
-
         Double doubleAllowanceAmount = allowanceAmount.doubleValue();
 
         Allowances newAllowances = new Allowances();
@@ -63,5 +61,14 @@ public class AllowanceService {
         }
         allowanceRepository.deleteById(allowanceId);
         return new ResponseEntity<>("Allowance removed Successfully", HttpStatus.OK);
+    }
+
+    public ResponseEntity<?> getAllowanceById(Integer allowanceId){
+        Optional<Allowances> allowance = allowanceRepository.findById(allowanceId);
+        if(allowance.isEmpty()){
+            return new ResponseEntity<>("Allowance not found", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(allowance, HttpStatus.OK);
+
     }
 }

@@ -5,24 +5,24 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Field, Form, Formik } from "formik";
-import React from "react";
 import * as Yup from "yup";
-import { addAllowance } from "../api/allowanceApi";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; 
+import { Field, Form, Formik } from "formik";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddAllowances = () => {
+const UpdateAllowance = () => {
+    
   const navigate = useNavigate();
-
   const allowanceTypes = ["Recurring Allowance", "One-Time Allowance"];
-  const initialValues = {
-    allowanceName: "",
-    employeeId: "",
-    allowanceType: "",
-    allowancePercentage: "",
-  };
+  const { allowanceId } = useParams();
+  const [allowance, setAllowance] = useState(null);
 
+  const initialValues = {
+    allowanceName: allowance.allowanceName || "",
+    employeeId: allowance.employeeId || "",
+    allowanceType: allowance.allowanceType || "",
+    allowancePercentage: allowance.allowancePercentage || "",
+  };
   const validationSchema = Yup.object().shape({
     allowanceName: Yup.string()
       .required("Allowance name is required")
@@ -36,32 +36,37 @@ const AddAllowances = () => {
       .min(0, "Allowance percentage cannot be negative")
       .max(100, "Allowance percentage cannot exceed 100"),
   });
+  useEffect(() => {
+    const getAllowance = async (allowanceId) => {
+      try {
+        const response = await getAllowance(allowanceId);
+        console.log(response);
+        
+        setAllowance(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  });
 
-  const handleSave = async (values, { resetForm }) => {
+  const handleUpdate = (values) => {
     try {
-      const response = await addAllowance(values);
-      toast.success(response.data, { autoClose: 2000 });
-      resetForm();
-    } catch (error) {
-      toast.error(error.response.data, { autoClose: 2000 });
-    }
+    } catch (error) {}
   };
-
   const handleBack = () => {
     navigate(-1); 
   };
-
   return (
     <div className="flex flex-col p-4 space-y-6">
       <Typography variant="h4" className="text-3xl font-bold mb-4">
-        Add Allowances
+        Update Allowance Details
       </Typography>
       <Divider sx={{ height: 4, bgcolor: "gray" }} />
 
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={handleSave}
+        onSubmit={handleUpdate}
       >
         {({ handleSubmit, touched, errors }) => (
           <Form className="grid grid-cols-2 gap-6" onSubmit={handleSubmit}>
@@ -115,8 +120,12 @@ const AddAllowances = () => {
                 name="allowancePercentage"
                 type="number"
                 variant="outlined"
-                error={touched.allowancePercentage && !!errors.allowancePercentage}
-                helperText={touched.allowancePercentage && errors.allowancePercentage}
+                error={
+                  touched.allowancePercentage && !!errors.allowancePercentage
+                }
+                helperText={
+                  touched.allowancePercentage && errors.allowancePercentage
+                }
               />
             </div>
 
@@ -129,7 +138,7 @@ const AddAllowances = () => {
                 Back
               </Button>
               <Button type="submit" variant="contained" color="primary">
-                Save Allowance
+                Save Changes
               </Button>
             </div>
           </Form>
@@ -139,4 +148,4 @@ const AddAllowances = () => {
   );
 };
 
-export default AddAllowances;
+export default UpdateAllowance;

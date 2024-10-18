@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteAllowance, getAllowance } from "../api/allowanceApi";
+import { deleteAllowance, getAllowanceByEmployeeId } from "../api/allowanceApi";
 import { toast } from "react-toastify";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -32,7 +32,7 @@ const Allowances = () => {
   const handleSearchAllowance = async () => {
     setSearchAttempted(true);
     try {
-      const response = await getAllowance(searchInput);
+      const response = await getAllowanceByEmployeeId(searchInput);
       const allowanceData = response.data;
       setAllowances(allowanceData);
     } catch (error) {
@@ -44,8 +44,8 @@ const Allowances = () => {
     navigate("/addAllowance");
   };
 
-  const handleUpdate = (allowanceId) => {
-    console.log(`Update allowance with ID: ${allowanceId}`);
+  const handleUpdate = (allowanceId, employeeId) => {
+    navigate(`/allowance/${employeeId}/${allowanceId}`)
   };
 
   const handleDelete = async (allowanceId) => {
@@ -192,7 +192,7 @@ const Allowances = () => {
                     <TableCell>
                       <EditIcon
                         color="primary"
-                        onClick={() => handleUpdate(allowance.allowanceId)}
+                        onClick={() => handleUpdate(allowance.allowanceId, allowance.employeeId)}
                         style={{ cursor: "pointer" }}
                       />
                     </TableCell>

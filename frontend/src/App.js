@@ -25,6 +25,7 @@ import Deductions from "./components/Deductions/Deductions";
 import Tax from "./components/Tax/Tax";
 import AddTax from "./components/Tax/AddTax";
 import AddDeductions from "./components/Deductions/AddDeductions";
+import UpdateAllowance from "./components/Allowances/UpdateAllowance";
 
 function AppContent() {
   const location = useLocation();
@@ -39,7 +40,7 @@ function AppContent() {
           <Route path="/signin" element={<SignInForm />} />
           <Route path="/signup" element={<RegisterForm />} />
           <Route path="/" element={<Navigate to="/signin" replace />} />
-          <Route path="/home" element={<Homepage/>}/>
+          <Route path="/home" element={<Homepage />} />
           <Route path="/department" element={<Department />} />
           <Route path="/employee" element={<EmployeeManagement />} />
           <Route path="/addEmployee" element={<AddEmployee />} />
@@ -48,12 +49,16 @@ function AppContent() {
           <Route path="/payrollMonth" element={<PayrollMonth />} />
           <Route path="/payroll" element={<Payroll />} />
           <Route path="/addPayroll" element={<AddPayroll />} />
-          <Route path="/allowances" element={<Allowances/>}/>
-          <Route path="/addAllowance" element={<AddAllowances/>}/>
-          <Route path="/deductions" element={<Deductions/>}/>
-          <Route path="/addDeductions" element={<AddDeductions/>}/>
-          <Route path="/tax" element={<Tax/>}/>
-          <Route path="/addTax" element={<AddTax/>}/>
+          <Route path="/allowances" element={<Allowances />} />
+          <Route path="/addAllowance" element={<AddAllowances />} />
+          <Route path="/deductions" element={<Deductions />} />
+          <Route path="/addDeductions" element={<AddDeductions />} />
+          <Route path="/tax" element={<Tax />} />
+          <Route path="/addTax" element={<AddTax />} />
+          <Route
+            path="/allowance/:employeeId/:allowanceId"
+            element={<UpdateAllowance />}
+          />
         </Routes>
       </div>
     </div>

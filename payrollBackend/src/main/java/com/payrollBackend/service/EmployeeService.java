@@ -31,6 +31,7 @@ public class EmployeeService {
 
     @Autowired
     private AllowanceRepository allowanceRepository;
+
     @Transactional
     public ResponseEntity<Map<String, Object>> addEmployee(Employee employee) {
         Department department = departmentRepository.findByDeptName(employee.getDepartment().getDeptName());
@@ -66,42 +67,26 @@ public class EmployeeService {
     public ResponseEntity<String> removeEmployee(Integer employeeId) throws Exception {
 
         Employee employee = findByEmployeeId(employeeId);
-
-        // Delete all related payrolls
         List<Payroll> payrolls = payrollRepository.findByEmployee(employee);
         if (payrolls != null && !payrolls.isEmpty()) {
             payrollRepository.deleteAll(payrolls);
         }
-
-        // Delete all related allowances
         List<Allowances> allowances = allowanceRepository.findByEmployee(employee);
         if (allowances != null && !allowances.isEmpty()) {
             allowanceRepository.deleteAll(allowances);
         }
-
-        // Delete all related deductions
         List<Deductions> deductions = deductionRepository.findByEmployee(employee);
         if (deductions != null && !deductions.isEmpty()) {
             deductionRepository.deleteAll(deductions);
         }
-
-        // Delete the employee
         employeeRepository.delete(employee);
-
-        // Update department's employee count
         Department department = employee.getDepartment();
         if (department != null) {
-            // Fetch the department from the database to ensure it's attached to the persistence context
             Department existingDepartment = departmentRepository.findById(department.getDeptId())
                     .orElseThrow(() -> new Exception("Department not found"));
-
-            // Decrement employee count
             existingDepartment.setEmployeeCount(existingDepartment.getEmployeeCount() - 1);
-
-            // Save the updated department (without inserting a new one)
             departmentRepository.save(existingDepartment);
         }
-
         return new ResponseEntity<>("Employee removed Successfully", HttpStatus.OK);
     }
 

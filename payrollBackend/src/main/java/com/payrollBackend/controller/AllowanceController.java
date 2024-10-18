@@ -19,12 +19,17 @@ public class AllowanceController {
     }
 
     @GetMapping(value = "/allowances/{employeeId}")
-    public ResponseEntity<?> getAllowances(@PathVariable Integer employeeId){
+    public ResponseEntity<?> getAllowancesByEmployeeId(@PathVariable Integer employeeId){
         return allowanceService.getAllowancesByEmployeeId(employeeId);
     }
 
     @DeleteMapping(value = "/allowance/{allowanceId}")
     public ResponseEntity<?> deleteAllowance(@PathVariable Integer allowanceId){
         return allowanceService.removeAllowance(allowanceId);
+    }
+
+    @GetMapping(value = "/allowance/allowanceId")
+    public ResponseEntity<?> getAllowanceById(@PathVariable Integer allowanceId){
+        return allowanceService.getAllowanceById(allowanceId);
     }
 }

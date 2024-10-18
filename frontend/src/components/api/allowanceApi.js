@@ -9,7 +9,7 @@ export const addAllowance = async (allowanceData) =>{
     }
 }
 
-export const getAllowance = async (employeeId) =>{
+export const getAllowanceByEmployeeId = async (employeeId) =>{
     try {
         const response = await apiClient.get(`/allowances/${employeeId}`);
         return response;
@@ -21,6 +21,15 @@ export const getAllowance = async (employeeId) =>{
 export const deleteAllowance = async (allowanceId) => {
     try {
         const response = await apiClient.delete(`allowance/${allowanceId}`);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getAllowance = async (allowanceId) => {
+    try {
+        const response = await apiClient.get(`/allowance/${allowanceId}`);
         return response;
     } catch (error) {
         throw error;

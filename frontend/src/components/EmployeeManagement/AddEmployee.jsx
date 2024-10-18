@@ -70,10 +70,21 @@ const AddEmployee = () => {
   }, []);
 
   const handleSave = async (values, { resetForm }) => {
+    const { dob, joiningDate } = values;
+    const dobDate = new Date(dob);
+    const joiningDateObj = new Date(joiningDate);
+  
+    if (dobDate >= joiningDateObj) {
+      toast.error("Date of Birth must be less than the Joining Date.", {
+        autoClose: 2000,
+      });
+      return;
+    }
     const employeeData = {
       ...values,
       department: selectedDepartment,
     };
+  
     try {
       const response = await addEmployee(employeeData);
       const employeeId = response.data.employeeId;
@@ -87,6 +98,7 @@ const AddEmployee = () => {
       toast.error(error.response.data, { autoClose: 2000 });
     }
   };
+  
 
   return (
     <div className="flex flex-col p-4 space-y-6">
